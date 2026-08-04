@@ -1,4 +1,11 @@
 import { AiOutlineSafety } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import Logo from "../../assets/shopXLogo.png";
+import LocationBtn from "../buttons/Location.button";
+import { IoSearchSharp } from "react-icons/io5";
+
+import { IoBagHandleOutline } from "react-icons/io5";
+import OpenAccountBtn from "../buttons/OpenAccount.button";
 
 const Header = () => {
   return (
@@ -69,6 +76,39 @@ const Header = () => {
                 </a>
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="h-auto flex items-center max-w-[1280px] mx-auto  gap-12">
+        <div className="">
+          <Link to={"/"}>
+            <img className="h-30 w-60" src={Logo} alt="logo" />
+          </Link>
+        </div>
+
+        <div className="">
+          <LocationBtn />
+        </div>
+
+        <div className="bg-gray-100 flex flex-1 items-center rounded-lg px-6">
+          <input
+            className="outline-none h-full w-full border-none bg-transparent text-gray-500 font-semibold p-4  font-semibold"
+            type="search"
+            placeholder="Search for products..."
+          />
+          <IoSearchSharp className="text-2xl hover:cursor-pointer" />
+        </div>
+
+        <div className="flex items-center justify-between gap-4 cursor-pointer">
+          <OpenAccountBtn />
+
+          <div className="relative flex h-12 w-12 items-center justify-center rounded-full cursor-pointer bg-red-100">
+            <IoBagHandleOutline className="text-2xl text-red-600" />
+
+            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs font-semibold text-white">
+              100
+            </span>
           </div>
         </div>
       </div>
