@@ -1,9 +1,8 @@
 import Button from "@mui/material/Button";
 import { IoMdArrowDropdown } from "react-icons/io";
 
-const LocationBtn = () => {
-  return (
-    <Button
+const CountryDropDown = () => {
+  return     <Button
       variant="text"
       disableElevation
       sx={{
@@ -18,17 +17,18 @@ const LocationBtn = () => {
         cursor: "pointer",
         overflow: "hidden",
         position: "relative",
+        width : "auto",
+        height : "auto"
       }}
     >
       <div>
-        <p className="text-[10px] font-semibold text-gray-400">Your Location</p>
+        <p className="text-[10px] text-gray-400">Your Location</p>
 
-        <p className="text-sm font-semibold text-blue-800">Select a Location</p>
+        <p className="text-sm font-semibold text-blue-800">Nepal</p>
       </div>
 
       <IoMdArrowDropdown />
-    </Button>
-  );
+    </Button>;
 };
 
-export default LocationBtn;
+export default CountryDropDown;

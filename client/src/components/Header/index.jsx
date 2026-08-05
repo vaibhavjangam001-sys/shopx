@@ -1,11 +1,10 @@
 import { AiOutlineSafety } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/shopXLogo.png";
-import LocationBtn from "../buttons/Location.button";
 import { IoSearchSharp } from "react-icons/io5";
-
 import { IoBagHandleOutline } from "react-icons/io5";
 import OpenAccountBtn from "../buttons/OpenAccount.button";
+import CountryDropDown from "../Dropdown";
 
 const Header = () => {
   return (
@@ -88,7 +87,7 @@ const Header = () => {
         </div>
 
         <div className="">
-          <LocationBtn />
+         <CountryDropDown/>
         </div>
 
         <div className="bg-gray-100 flex flex-1 items-center rounded-lg px-6">

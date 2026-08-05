@@ -1,8 +1,6 @@
 import Button from "@mui/material/Button";
 import { MdAccountCircle } from "react-icons/md";
 
-// flex items-center justify-between gap-4 cursor-pointer
-
 const OpenAccountBtn = () => {
   return (
     <Button
