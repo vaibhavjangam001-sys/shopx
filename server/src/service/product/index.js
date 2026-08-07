@@ -1,0 +1,1 @@
+export { default as createProductService } from "./createProduct.service.js";
