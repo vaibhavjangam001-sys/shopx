@@ -1,9 +1,10 @@
 import { Router } from "express";
 import {
-  getProduct,
+  getAllProductController,
   createProductController,
   getAllProductsController,
 } from "../../controllers/product/index.js";
+import getProductController from "../../controllers/product/getProduct.controller.js";
 
 const productRouter = Router();
 
@@ -11,7 +12,7 @@ const productRouter = Router();
 productRouter.get("/", getAllProductsController);
 
 // get single product
-productRouter.get("/:product_Id", getProduct);
+productRouter.get("/:productId", getProductController);
 
 // create product
 productRouter.post("/", createProductController);
