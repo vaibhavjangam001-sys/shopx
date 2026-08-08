@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 
 export const createProductValidator = [
-  body("name")
+  body("productName")
     .trim()
     .notEmpty()
     .withMessage("Product name is required")

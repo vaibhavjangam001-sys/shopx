@@ -7,7 +7,7 @@ const updateProductRepository = async (productId, updateDetails) => {
       $set: updateDetails,
     },
     {
-      returnDocument : "after",
+      returnDocument: "after",
       runValidators: true,
     },
   );

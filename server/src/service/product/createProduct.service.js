@@ -1,8 +1,30 @@
-import { createProductRepository } from "../../repositories/product/index.js";
+import {
+  createProductRepository,
+  findProudctBySlugRepository,
+} from "../../repositories/product/index.js";
 import { ApiError } from "../../utils/index.js";
 
 const createProductService = async (productData) => {
-  const product = await createProductRepository(productData);
+  const { productName, slug, brand, description, category, images, status } =
+    productData;
+
+  const existingProduct = await findProudctBySlugRepository(slug);
+
+  if (existingProduct) {
+    throw new ApiError(409, "Product with this slug already exists.");
+  }
+
+  const productDataToCreate = {
+    productName,
+    slug,
+    brand,
+    description,
+    category,
+    images,
+    status,
+  };
+
+  const product = await createProductRepository(productDataToCreate);
 
   if (!product) {
     throw new ApiError(500, "Failed to create product.");
