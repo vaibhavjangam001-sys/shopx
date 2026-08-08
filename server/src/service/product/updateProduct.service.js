@@ -1,7 +1,7 @@
 import {
   updateProductRepository,
   getProductRepository,
-} from "../../repository/product/index.js";
+} from "../../repositories/product/index.js";
 
 const updateProductService = async (productId,updateDetails) => {
 

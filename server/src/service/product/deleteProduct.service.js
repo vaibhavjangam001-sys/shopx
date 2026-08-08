@@ -1,7 +1,7 @@
 import {
   deleteProductRepository,
   getProductRepository,
-} from "../../repository/product/index.js";
+} from "../../repositories/product/index.js";
 
 const deleteProductService = async (productId) => {
   const product = await getProductRepository(productId);

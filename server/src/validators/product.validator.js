@@ -41,3 +41,6 @@ export const createProductValidator = [
     .isMongoId()
     .withMessage("Invalid category ID"),
 ];
+
+
+export default createProductValidator;
