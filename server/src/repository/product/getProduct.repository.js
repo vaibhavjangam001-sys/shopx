@@ -1,7 +1,8 @@
 import { Product } from "../../models/index.js";
 
 const getProductRepository = async (productId) => {
-  return await Product.findById(productId);
+  const product = await Product.findById(productId);
+  return product;
 };
 
 export default getProductRepository;

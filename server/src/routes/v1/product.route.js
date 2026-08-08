@@ -3,6 +3,8 @@ import {
   getAllProductController,
   createProductController,
   getAllProductsController,
+  updateProductController,
+  deletedProductController,
 } from "../../controllers/product/index.js";
 import getProductController from "../../controllers/product/getProduct.controller.js";
 
@@ -16,5 +18,11 @@ productRouter.get("/:productId", getProductController);
 
 // create product
 productRouter.post("/", createProductController);
+
+// update product
+productRouter.patch("/:productId", updateProductController);
+
+// delete product
+productRouter.delete("/:productId", deletedProductController);
 
 export default productRouter;

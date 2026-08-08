@@ -1,7 +1,6 @@
 import { getProductRepository } from "../../repository/product/index.js";
 
-const getProductService = async (req) => {
-  const productId = req.params.productId;
+const getProductService = async (productId) => {
 
   const product = await getProductRepository(productId);
 

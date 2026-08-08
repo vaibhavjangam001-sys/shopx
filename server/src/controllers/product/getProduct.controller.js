@@ -3,7 +3,7 @@ import { getProductService } from "../../service/product/index.js";
 import ApiResponse from "../../utils/ApiResponse.util.js";
 
 const getProductController = AsyncHandler(async (req, res) => {
-  const product = await getProductService(req);
+  const product = await getProductService(req.params.productId);
 
   if (!product) {
     return res
