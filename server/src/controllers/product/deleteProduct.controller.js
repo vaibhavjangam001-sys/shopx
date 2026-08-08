@@ -1,8 +1,7 @@
-import AsyncHandler from "../../utils/AsyncHandler.util.js";
-import ApiResponse from "../../utils/ApiResponse.util.js";
+import { AsyncHandler , ApiResponse} from "../../utils/index.js"
 import { deleteProductService } from "../../service/product/index.js";
 
-const deletedProductController = AsyncHandler(async (req, res) => {
+const deleteProductController = AsyncHandler(async (req, res) => {
   const deletedProduct = await deleteProductService(req.params.productId);
 
   res
@@ -12,4 +11,4 @@ const deletedProductController = AsyncHandler(async (req, res) => {
     );
 });
 
-export default deletedProductController;
+export default deleteProductController;

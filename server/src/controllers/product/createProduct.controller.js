@@ -1,5 +1,4 @@
-import AsyncHandler from "../../utils/AsyncHandler.util.js";
-import ApiResponse from "../../utils/ApiResponse.util.js";
+import { AsyncHandler , ApiResponse } from "../../utils/index.js";
 import { createProductService } from "../../service/product/index.js";
 
 const createProductController = AsyncHandler(async (req, res) => {

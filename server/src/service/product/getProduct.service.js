@@ -1,11 +1,12 @@
 import { getProductRepository } from "../../repository/product/index.js";
+import { ApiError } from "../../utils/index.js"
 
 const getProductService = async (productId) => {
 
   const product = await getProductRepository(productId);
 
   if (!product) {
-    return null;
+    throw new ApiError(404,"Product not found.");
   }
 
   return product;
