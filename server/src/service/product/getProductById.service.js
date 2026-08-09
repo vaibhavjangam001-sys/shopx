@@ -1,4 +1,4 @@
-import { getProductRepository } from "../../repositories/product/index.js";
+import { getProductByIdRepository } from "../../repositories/product/index.js";
 import { ApiError } from "../../utils/index.js"
 
 const getProductService = async (productId) => {

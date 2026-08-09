@@ -1,9 +1,7 @@
 import { Product } from "../../models/index.js";
 
 const createProductRepository = async (productData) => {
-  const product = await Product.create(productData);
-
-  return product;
+  return await Product.create(productData);
 };
 
 export default createProductRepository;

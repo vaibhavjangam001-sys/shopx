@@ -1,1 +1,0 @@
-export { default as createProductValidator } from "./product.validator.js";

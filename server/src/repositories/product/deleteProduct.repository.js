@@ -1,8 +1,7 @@
 import { Product } from "../../models/index.js";
 
 const deleteProductRepository = async (productId) => {
-  const deletedProduct = await Product.findByIdAndDelete(productId);
-  return deletedProduct;
+  return await Product.findByIdAndDelete(productId);
 };
 
 export default deleteProductRepository;

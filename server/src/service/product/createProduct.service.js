@@ -24,13 +24,13 @@ const createProductService = async (productData) => {
     status,
   };
 
-  const product = await createProductRepository(productDataToCreate);
+  const createdProduct = await createProductRepository(productDataToCreate);
 
-  if (!product) {
+  if (!createdProduct) {
     throw new ApiError(500, "Failed to create product.");
   }
 
-  return product;
+  return createdProduct;
 };
 
 export default createProductService;

@@ -1,7 +1,7 @@
 import { Product } from "../../models/index.js";
 
 const updateProductRepository = async (productId, updateDetails) => {
-  const updatedProduct = await Product.findByIdAndUpdate(
+  return await Product.findByIdAndUpdate(
     productId,
     {
       $set: updateDetails,
@@ -11,8 +11,6 @@ const updateProductRepository = async (productId, updateDetails) => {
       runValidators: true,
     },
   );
-
-  return updatedProduct;
 };
 
 export default updateProductRepository;

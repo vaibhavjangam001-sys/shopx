@@ -2,11 +2,15 @@ import { Router } from "express";
 import {
   getAllProductsController,
   createProductController,
-  getProductController,
+  getProductByIdController,
   updateProductController,
   deleteProductController,
+  findProductBySlugController,
 } from "../../controllers/product/index.js";
-import { createProductValidator } from "../../validators/index.js";
+import {
+  createProductValidator,
+  updateProductValidator,
+} from "../../validators/product/index.js";
 import { validationMiddleware } from "../../middlewares/index.js";
 
 const productRouter = Router();
@@ -15,7 +19,7 @@ const productRouter = Router();
 productRouter.get("/", getAllProductsController);
 
 // get single product
-productRouter.get("/:productId", getProductController);
+productRouter.get("/:productId", getProductByIdController);
 
 // create product
 productRouter.post(
@@ -26,9 +30,17 @@ productRouter.post(
 );
 
 // update product
-productRouter.patch("/:productId", updateProductController);
+productRouter.patch(
+  "/:productId",
+  updateProductValidator,
+  validationMiddleware,
+  updateProductController,
+);
 
 // delete product
 productRouter.delete("/:productId", deleteProductController);
+
+// find product by slug
+productRouter.get("/slug/:slug", findProductBySlugController);
 
 export default productRouter;

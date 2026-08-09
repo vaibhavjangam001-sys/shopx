@@ -1,4 +1,4 @@
-import { AsyncHandler , ApiResponse} from "../../utils/index.js"
+import { AsyncHandler, ApiResponse } from "../../utils/index.js";
 import { deleteProductService } from "../../service/product/index.js";
 
 const deleteProductController = AsyncHandler(async (req, res) => {
