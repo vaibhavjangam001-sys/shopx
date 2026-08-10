@@ -2,7 +2,7 @@ import { AsyncHandler, ApiResponse } from '../../utils/index.js';
 import { getProductByIdService } from '../../service/product/index.js';
 
 const getProductByIdController = AsyncHandler(async (req, res) => {
-  const product = await getProductService(req.params.productId);
+  const product = await getProductByIdService(req.params.productId);
 
   res
     .status(200)

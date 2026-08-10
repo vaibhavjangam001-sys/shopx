@@ -5,7 +5,7 @@ import {
 import { ApiError } from '../../utils/index.js';
 
 const deleteProductService = async (productId) => {
-  const existingProduct = getProductByIdRepository(productId);
+  const existingProduct = await getProductByIdRepository(productId);
 
   if (!existingProduct) {
     throw new ApiError(404, 'Product not found.');

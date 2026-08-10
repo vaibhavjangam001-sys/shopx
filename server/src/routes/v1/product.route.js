@@ -15,6 +15,9 @@ import { validationMiddleware } from '../../middlewares/index.js';
 
 const productRouter = Router();
 
+// find product by slug
+productRouter.get('/slug/:slug', findProductBySlugController);
+
 // get all products
 productRouter.get('/', getAllProductsController);
 
@@ -39,8 +42,5 @@ productRouter.patch(
 
 // delete product
 productRouter.delete('/:productId', deleteProductController);
-
-// find product by slug
-productRouter.get('/slug/:slug', findProductBySlugController);
 
 export default productRouter;

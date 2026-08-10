@@ -1,7 +1,8 @@
 import {
   createProductRepository,
-  findProudctBySlugRepository,
+  findProductBySlugRepository,
 } from '../../repositories/product/index.js';
+import { getCategoryByIdRepository } from '../../repositories/category/index.js';
 import { ApiError } from '../../utils/index.js';
 
 const createProductService = async (productData) => {
@@ -19,10 +20,16 @@ const createProductService = async (productData) => {
     sku,
   } = productData;
 
-  const existingProduct = await findProudctBySlugRepository(slug);
+  const existingProduct = await findProductBySlugRepository(slug);
 
   if (existingProduct) {
     throw new ApiError(409, 'Product with this slug already exists.');
+  }
+
+  const isCategoryExists = await getCategoryByIdRepository(category);
+
+  if (!isCategoryExists) {
+    throw new ApiError(404, 'Category not found.');
   }
 
   const productDataToCreate = {

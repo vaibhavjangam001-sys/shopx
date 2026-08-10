@@ -15,6 +15,9 @@ import { validationMiddleware } from '../../middlewares/index.js';
 
 const categoryRouter = Router();
 
+// find category by slug
+categoryRouter.get('/slug/:slug', findCategoryBySlugController);
+
 // get all categories
 categoryRouter.get('/', getAllCategoriesController);
 
@@ -39,8 +42,5 @@ categoryRouter.patch(
 
 // delete category
 categoryRouter.delete('/:categoryId', deleteCategoryController);
-
-// get category by slug
-categoryRouter.get('/slug/:slug', findCategoryBySlugController);
 
 export default categoryRouter;

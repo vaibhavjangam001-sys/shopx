@@ -1,7 +1,7 @@
 import {
   updateProductRepository,
   getProductByIdRepository,
-  findProudctBySlugRepository,
+  findProductBySlugRepository,
 } from '../../repositories/product/index.js';
 import { ApiError } from '../../utils/index.js';
 
@@ -13,7 +13,7 @@ const updateProductService = async (productId, updateDetails) => {
   }
 
   if (updateDetails.slug && updateDetails.slug !== product.slug) {
-    const productWithSlug = await findProudctBySlugRepository(
+    const productWithSlug = await findProductBySlugRepository(
       updateDetails.slug
     );
 

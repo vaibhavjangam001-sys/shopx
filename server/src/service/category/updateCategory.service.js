@@ -27,7 +27,7 @@ const updateCategoryService = async (categoryId, updateDetails) => {
     updateDetails
   );
 
-  if (!updateDetails) {
+  if (!updatedCategory) {
     throw new ApiError(500, 'Failed to update Category.');
   }
 
