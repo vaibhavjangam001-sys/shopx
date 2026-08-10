@@ -1,7 +1,7 @@
-import { Product } from "../../models/index.js";
+import { Product } from '../../models/index.js';
 
 const findProudctBySlugRepository = async (slug) => {
-  return await Product.findOne({ slug });
+  return Product.findOne({ slug });
 };
 
 export default findProudctBySlugRepository;

@@ -1,7 +1,7 @@
-import { Product } from "../../models/index.js";
+import { Product } from '../../models/index.js';
 
 const getAllProductsRepository = async () => {
-  return await Product.find();
+  return Product.find();
 };
 
 export default getAllProductsRepository;

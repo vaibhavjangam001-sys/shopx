@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const categorySchema = new mongoose.Schema(
   {
-    category : {
+    category: {
       type: String,
-      required: [true, "Please enter category name."],
+      required: [true, 'Please enter category name.'],
       trim: true,
-      minlength: [2, "Category name must be at least 2 characters."],
-      maxlength: [100, "Category name must be less than 100 characters."],
+      minlength: [2, 'Category name must be at least 2 characters.'],
+      maxlength: [100, 'Category name must be less than 100 characters.'],
       unique: true,
       index: true,
     },
@@ -24,7 +24,7 @@ const categorySchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
-      maxlength: [500, "Category decription must be less than 500 characters."],
+      maxlength: [500, 'Category decription must be less than 500 characters.'],
     },
 
     image: {
@@ -46,9 +46,9 @@ const categorySchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
-const Category = mongoose.model("Category", categorySchema);
+const Category = mongoose.model('Category', categorySchema);
 
 export default Category;

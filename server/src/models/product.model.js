@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema(
   {
     productName: {
       type: String,
-      required: [true, "Please enter product name."],
+      required: [true, 'Please enter product name.'],
       trim: true,
-      minlength: [2, "Product name must be at least 2 characters."],
-      maxlength: [150, "Product name must be less than 150 characters."],
+      minlength: [2, 'Product name must be at least 2 characters.'],
+      maxlength: [150, 'Product name must be less than 150 characters.'],
     },
 
     slug: {
@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema(
 
     sku: {
       type: String,
-      required: [true, "Please enter product SKU."],
+      required: [true, 'Please enter product SKU.'],
       unique: true,
       uppercase: true,
       trim: true,
@@ -30,41 +30,44 @@ const productSchema = new mongoose.Schema(
 
     brand: {
       type: String,
-      required: [true, "Please enter brand name."],
+      required: [true, 'Please enter brand name.'],
       trim: true,
-      maxlength: [100, "Brand name must be less than 100 characters."],
+      maxlength: [100, 'Brand name must be less than 100 characters.'],
     },
 
     description: {
       type: String,
-      required: [true, "Please enter product description."],
+      required: [true, 'Please enter product description.'],
       trim: true,
-      maxlength: [5000, "Product description must be less than 5000 characters."],
+      maxlength: [
+        5000,
+        'Product description must be less than 5000 characters.',
+      ],
     },
 
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
-      required: [true, "Please enter product category."],
+      ref: 'Category',
+      required: [true, 'Please enter product category.'],
       index: true,
     },
 
     price: {
       type: Number,
-      required: [true, "Please enter product price."],
-      min: [0, "Price cannot be negative."],
+      required: [true, 'Please enter product price.'],
+      min: [0, 'Price cannot be negative.'],
     },
 
     discountPrice: {
       type: Number,
-      min: [0, "Discount price cannot be negative."],
+      min: [0, 'Discount price cannot be negative.'],
       default: null,
     },
 
     stock: {
       type: Number,
-      required: [true, "Please enter product stock."],
-      min: [0, "Stock cannot be negative."],
+      required: [true, 'Please enter product stock.'],
+      min: [0, 'Stock cannot be negative.'],
       default: 0,
     },
 
@@ -86,21 +89,21 @@ const productSchema = new mongoose.Schema(
 
     rating: {
       type: Number,
-      min: [0, "Rating cannot be less than 0."],
-      max: [5, "Rating connot be greater than 5."],
+      min: [0, 'Rating cannot be less than 0.'],
+      max: [5, 'Rating connot be greater than 5.'],
       default: 0,
     },
 
     numOfReviews: {
       type: Number,
-      min: [0, "Review count cannot be negative."],
+      min: [0, 'Review count cannot be negative.'],
       default: 0,
     },
 
     status: {
       type: String,
-      enum: ["draft", "active", "inactive"],
-      default: "draft",
+      enum: ['draft', 'active', 'inactive'],
+      default: 'draft',
       index: true,
     },
 
@@ -113,9 +116,9 @@ const productSchema = new mongoose.Schema(
 
   {
     timestamps: true,
-  },
+  }
 );
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model('Product', productSchema);
 
 export default Product;

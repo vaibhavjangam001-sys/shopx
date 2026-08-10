@@ -1,15 +1,15 @@
-import { Product } from "../../models/index.js";
+import { Product } from '../../models/index.js';
 
 const updateProductRepository = async (productId, updateDetails) => {
-  return await Product.findByIdAndUpdate(
+  return Product.findByIdAndUpdate(
     productId,
     {
       $set: updateDetails,
     },
     {
-      returnDocument: "after",
+      returnDocument: 'after',
       runValidators: true,
-    },
+    }
   );
 };
 

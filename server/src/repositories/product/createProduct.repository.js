@@ -1,7 +1,7 @@
-import { Product } from "../../models/index.js";
+import { Product } from '../../models/index.js';
 
 const createProductRepository = async (productData) => {
-  return await Product.create(productData);
+  return Product.create(productData);
 };
 
 export default createProductRepository;

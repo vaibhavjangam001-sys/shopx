@@ -1,7 +1,7 @@
-import { Category } from "../../models/index.js";
+import { Category } from '../../models/index.js';
 
 const deleteCategoryRepository = async (categoryId) => {
-  return await Category.findByIdAndDelete(categoryId);
+  return Category.findByIdAndDelete(categoryId);
 };
 
 export default deleteCategoryRepository;

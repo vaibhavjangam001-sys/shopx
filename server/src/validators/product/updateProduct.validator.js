@@ -1,74 +1,74 @@
-import { body } from "express-validator";
+import { body } from 'express-validator';
 
 const updateProductValidator = [
-  body("productName")
+  body('productName')
     .optional()
     .trim()
     .isLength({ min: 2, max: 150 })
-    .withMessage("Product name must be between 2 and 150 characters."),
+    .withMessage('Product name must be between 2 and 150 characters.'),
 
-  body("slug")
+  body('slug')
     .optional()
     .trim()
     .isLength({ min: 2, max: 150 })
-    .withMessage("Product slug must be between 2 and 150 characters.")
+    .withMessage('Product slug must be between 2 and 150 characters.')
     .bail()
     .matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
     .withMessage(
-      "Slug must contain only lowercase letters, numbers, and hyphens.",
+      'Slug must contain only lowercase letters, numbers, and hyphens.'
     ),
 
-  body("sku")
+  body('sku')
     .optional()
     .trim()
     .isLength({ min: 2, max: 100 })
-    .withMessage("Product SKU must be between 2 and 100 characters.")
+    .withMessage('Product SKU must be between 2 and 100 characters.')
     .bail()
     .matches(/^[A-Za-z0-9-]+$/)
-    .withMessage("SKU can contain only letters, numbers, and hyphens."),
+    .withMessage('SKU can contain only letters, numbers, and hyphens.'),
 
-  body("brand")
+  body('brand')
     .optional()
     .trim()
     .isLength({ min: 2, max: 100 })
-    .withMessage("Brand must be between 2 and 100 characters."),
+    .withMessage('Brand must be between 2 and 100 characters.'),
 
-  body("description")
+  body('description')
     .optional()
     .trim()
     .isLength({ min: 10, max: 5000 })
-    .withMessage("Description must be between 10 and 5000 characters."),
+    .withMessage('Description must be between 10 and 5000 characters.'),
 
-  body("category")
+  body('category')
     .optional()
     .trim()
     .isMongoId()
-    .withMessage("Invalid category ID."),
+    .withMessage('Invalid category ID.'),
 
-  body("price")
+  body('price')
     .optional()
     .isFloat({ min: 0 })
-    .withMessage("Price must be a non-negative number."),
+    .withMessage('Price must be a non-negative number.'),
 
-  body("discountPrice")
-    .optional({ values: "null" })
+  body('discountPrice')
+    .optional({ values: 'null' })
     .isFloat({ min: 0 })
-    .withMessage("Discount price must be a non-negative number."),
+    .withMessage('Discount price must be a non-negative number.'),
 
-  body("stock")
+  body('stock')
     .optional()
     .isInt({ min: 0 })
-    .withMessage("Stock must be a non-negative integer."),
+    .withMessage('Stock must be a non-negative integer.'),
 
-  body("status")
+  body('status')
     .optional()
-    .isIn(["draft", "active", "inactive"])
-    .withMessage("Status must be draft, active, or inactive."),
+    .isIn(['draft', 'active', 'inactive'])
+    .withMessage('Status must be draft, active, or inactive.'),
 
-  body("isFeatured")
+  body('isFeatured')
     .optional()
     .isBoolean()
-    .withMessage("isFeatured must be a boolean."),
+    .withMessage('isFeatured must be a boolean.'),
 ];
 
 export default updateProductValidator;

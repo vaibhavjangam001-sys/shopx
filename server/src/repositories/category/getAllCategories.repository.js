@@ -1,7 +1,7 @@
-import { Category } from "../../models/index.js";
+import { Category } from '../../models/index.js';
 
 const getAllCategoriesRepository = async () => {
-  return await Category.find();
+  return Category.find();
 };
 
 export default getAllCategoriesRepository;

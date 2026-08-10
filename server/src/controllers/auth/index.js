@@ -1,1 +1,1 @@
-export { default as registerUser } from "./registerUser.controller.js";
+export { default as registerUser } from './registerUser.controller.js';

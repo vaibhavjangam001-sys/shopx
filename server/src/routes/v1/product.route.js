@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
   getAllProductsController,
   createProductController,
@@ -6,41 +6,41 @@ import {
   updateProductController,
   deleteProductController,
   findProductBySlugController,
-} from "../../controllers/product/index.js";
+} from '../../controllers/product/index.js';
 import {
   createProductValidator,
   updateProductValidator,
-} from "../../validators/product/index.js";
-import { validationMiddleware } from "../../middlewares/index.js";
+} from '../../validators/product/index.js';
+import { validationMiddleware } from '../../middlewares/index.js';
 
 const productRouter = Router();
 
 // get all products
-productRouter.get("/", getAllProductsController);
+productRouter.get('/', getAllProductsController);
 
 // get single product
-productRouter.get("/:productId", getProductByIdController);
+productRouter.get('/:productId', getProductByIdController);
 
 // create product
 productRouter.post(
-  "/",
+  '/',
   createProductValidator,
   validationMiddleware,
-  createProductController,
+  createProductController
 );
 
 // update product
 productRouter.patch(
-  "/:productId",
+  '/:productId',
   updateProductValidator,
   validationMiddleware,
-  updateProductController,
+  updateProductController
 );
 
 // delete product
-productRouter.delete("/:productId", deleteProductController);
+productRouter.delete('/:productId', deleteProductController);
 
 // find product by slug
-productRouter.get("/slug/:slug", findProductBySlugController);
+productRouter.get('/slug/:slug', findProductBySlugController);
 
 export default productRouter;

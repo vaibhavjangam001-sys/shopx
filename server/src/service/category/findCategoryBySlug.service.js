@@ -1,14 +1,14 @@
-import { ApiError } from "../../utils/index.js";
-import { findCategoryBySlugRepository } from "../../repositories/category/index.js";
+import { ApiError } from '../../utils/index.js';
+import { findCategoryBySlugRepository } from '../../repositories/category/index.js';
 
 const findCategoryBySlugService = async (slug) => {
-  const categorySlug = await findCategoryBySlugRepository(slug);
+  const category = await findCategoryBySlugRepository(slug);
 
-  if (!categorySlug) {
-    throw new ApiError(404, "Category not found.");
+  if (!category) {
+    throw new ApiError(404, 'Category not found.');
   }
 
-  return categorySlug;
+  return category;
 };
 
 export default findCategoryBySlugService;

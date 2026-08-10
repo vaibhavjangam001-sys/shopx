@@ -1,15 +1,15 @@
-import { Category } from "../../models/index.js";
+import { Category } from '../../models/index.js';
 
 const updateCategoryRepository = async (categoryId, updateDetails) => {
-  return await Category.findByIdAndUpdate(
+  return Category.findByIdAndUpdate(
     categoryId,
     {
       $set: updateDetails,
     },
     {
-      returnDocument: "after",
+      returnDocument: 'after',
       runValidators: true,
-    },
+    }
   );
 };
 
