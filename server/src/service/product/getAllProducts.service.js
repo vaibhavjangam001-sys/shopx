@@ -1,8 +1,7 @@
 import { getAllProductsRepository } from '../../repositories/product/index.js';
 
-const getAllProductsService = async () => {
-  const products = await getAllProductsRepository();
-  return products;
+const getAllProductsService = async (queryParams) => {
+  return await getAllProductsRepository(queryParams);
 };
 
 export default getAllProductsService;

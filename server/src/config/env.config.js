@@ -10,7 +10,8 @@ if (!process.env.MONGO_URI) {
 }
 
 const env = {
-  PORT: process.env.PORT,
+  NODE_ENV: process.env.NODE_ENV || 'development',
+  PORT: Number(process.env.PORT),
   MONGO_URI: process.env.MONGO_URI,
 };
 
