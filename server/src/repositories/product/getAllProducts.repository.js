@@ -6,9 +6,18 @@ const getAllProductsRepository = async (queryParams) => {
 
   const features = new ApiFeatures(query, queryParams);
 
-  features.search().filters().sort();
+  features.search().filters().sort().fields().paginate();
 
-  return await features.query;
+  const products = await features.query;
+
+  const totalProducts = await Product.countDocuments(features.filterQuery);
+
+  return {
+    products,
+    totalProducts,
+    currentPage: features.page,
+    limit: features.limit,
+  };
 };
 
 export default getAllProductsRepository;

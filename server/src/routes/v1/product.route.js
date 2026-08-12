@@ -10,6 +10,7 @@ import {
 import {
   createProductValidator,
   updateProductValidator,
+  productQueryValidator,
 } from '../../validators/product/index.js';
 import { validationMiddleware } from '../../middlewares/index.js';
 
@@ -19,7 +20,12 @@ const productRouter = Router();
 productRouter.get('/slug/:slug', findProductBySlugController);
 
 // get all products
-productRouter.get('/', getAllProductsController);
+productRouter.get(
+  '/',
+  productQueryValidator,
+  validationMiddleware,
+  getAllProductsController
+);
 
 // get single product
 productRouter.get('/:productId', getProductByIdController);

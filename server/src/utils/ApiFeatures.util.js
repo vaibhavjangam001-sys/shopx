@@ -2,6 +2,10 @@ class ApiFeatures {
   constructor(query, queryParams) {
     this.query = query;
     this.queryParams = queryParams;
+
+    this.filterQuery = {};
+    this.page = 1;
+    this.limit = 10;
   }
 
   search() {
@@ -13,6 +17,11 @@ class ApiFeatures {
           },
         }
       : {};
+
+    this.filterQuery = {
+      ...this.filterQuery,
+      ...keyword,
+    };
 
     this.query = this.query.find(keyword);
 
@@ -27,7 +36,10 @@ class ApiFeatures {
     }
 
     if (this.queryParams.brand) {
-      filters.brand = this.queryParams.brand;
+      filters.brand = {
+        $regex: this.queryParams.brand,
+        $options: 'i',
+      };
     }
 
     if (this.queryParams.minPrice || this.queryParams.maxPrice) {
@@ -56,9 +68,12 @@ class ApiFeatures {
       filters.isFeatured = this.queryParams.isFeatured === 'true';
     }
 
-    this.query = this.query.find(filters);
+    this.filterQuery = {
+      ...this.filterQuery,
+      ...filters,
+    };
 
-    console.log(this.query);
+    this.query = this.query.find(filters);
 
     return this;
   }
@@ -84,6 +99,43 @@ class ApiFeatures {
     } else {
       this.query = this.query.sort('-createdAt');
     }
+
+    return this;
+  }
+
+  fields() {
+    const fields = this.queryParams.fields;
+
+    const allowedFields = [
+      'productName',
+      'price',
+      'discountPrice',
+      'rating',
+      'numOfReviewes',
+      'images',
+      'description',
+    ];
+
+    if (fields) {
+      const fieldArray = fields.split(',');
+
+      const validFields = fieldArray.filter((field) => {
+        return allowedFields.includes(field);
+      });
+
+      this.query = this.query.select(validFields.join(' '));
+    }
+
+    return this;
+  }
+
+  paginate() {
+    this.page = Number(this.queryParams.page) || 1;
+    this.limit = Number(this.queryParams.limit) || 10;
+
+    const skip = (this.page - 1) * this.limit;
+
+    this.query = this.query.skip(skip).limit(this.limit);
 
     return this;
   }
