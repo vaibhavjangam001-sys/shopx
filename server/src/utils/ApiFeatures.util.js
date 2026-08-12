@@ -111,7 +111,7 @@ class ApiFeatures {
       'price',
       'discountPrice',
       'rating',
-      'numOfReviewes',
+      'numOfReviews',
       'images',
       'description',
     ];

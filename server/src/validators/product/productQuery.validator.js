@@ -72,7 +72,7 @@ const productQueryValidator = [
         'price',
         'discountPrice',
         'rating',
-        'numOfReviewes',
+        'numOfReviews',
         'images',
         'description',
       ];

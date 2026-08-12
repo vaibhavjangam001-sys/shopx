@@ -90,7 +90,7 @@ const productSchema = new mongoose.Schema(
     rating: {
       type: Number,
       min: [0, 'Rating cannot be less than 0.'],
-      max: [5, 'Rating connot be greater than 5.'],
+      max: [5, 'Rating cannot be greater than 5.'],
       default: 0,
     },
 
@@ -118,6 +118,11 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+productSchema.index({
+  category: 1,
+  createdAt: -1,
+});
 
 const Product = mongoose.model('Product', productSchema);
 

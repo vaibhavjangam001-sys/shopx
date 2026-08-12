@@ -8,7 +8,7 @@ const getAllProductsRepository = async (queryParams) => {
 
   features.search().filters().sort().fields().paginate();
 
-  const products = await features.query;
+  const products = await features.query.lean();
 
   const totalProducts = await Product.countDocuments(features.filterQuery);
 
