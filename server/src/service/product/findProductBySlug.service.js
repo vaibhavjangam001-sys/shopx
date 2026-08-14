@@ -1,4 +1,4 @@
-import { ApiError, ApiResponse } from '../../utils/index.js';
+import { ApiError } from '../../utils/index.js';
 import { findProductBySlugRepository } from '../../repositories/product/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 

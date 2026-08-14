@@ -1,4 +1,3 @@
-import { ApiError } from '../../utils/index.js';
 import { getAllCategoriesRepository } from '../../repositories/category/index.js';
 
 const getAllCatagoriesService = async () => {

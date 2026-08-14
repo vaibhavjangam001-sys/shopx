@@ -33,7 +33,7 @@ const createProductService = async (productData) => {
   const isCategoryExists = await getCategoryByIdRepository(category);
 
   if (!isCategoryExists) {
-    throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.PRODUCT.NOT_FOUND);
+    throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.CATEGORY.NOT_FOUND);
   }
 
   const productDataToCreate = {
