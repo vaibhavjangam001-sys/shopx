@@ -1,7 +1,9 @@
+import { HTTP_STATUS, MESSAGES } from '../constants/index.js';
+
 class ApiError extends Error {
   constructor(
-    statusCode = 500,
-    message = 'Internal server error.',
+    statusCode = HTTP_STATUS.INTERNAL_SERVER_ERROR,
+    message = MESSAGES.SERVER.INTERNAL_ERROR,
     errors = [],
     stack = ''
   ) {

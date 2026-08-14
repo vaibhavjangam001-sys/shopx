@@ -3,18 +3,22 @@ import {
   deleteCategoryRepository,
   getCategoryByIdRepository,
 } from '../../repositories/category/index.js';
+import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
 const deleteCategoryService = async (categoryId) => {
   const existingCategory = await getCategoryByIdRepository(categoryId);
 
   if (!existingCategory) {
-    throw new ApiError(404, 'Category not found.');
+    throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.CATEGORY.NOT_FOUND);
   }
 
   const deletedCategory = await deleteCategoryRepository(categoryId);
 
   if (!deletedCategory) {
-    throw new ApiError(500, 'Failed to delete category.');
+    throw new ApiError(
+      HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      MESSAGES.CATEGORY.DELETE_FAILED
+    );
   }
 
   return deletedCategory;

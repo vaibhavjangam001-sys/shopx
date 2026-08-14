@@ -1,4 +1,5 @@
 import { body } from 'express-validator';
+import { REGEX } from '../../constants/index.js';
 
 const updateCategoryValidator = [
   body('category')
@@ -13,7 +14,7 @@ const updateCategoryValidator = [
     .isLength({ min: 2, max: 100 })
     .withMessage('Category slug must be between 2 and 100 characters.')
     .bail()
-    .matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    .matches(REGEX.SLUG)
     .withMessage(
       'Slug must contain only lowercase letters, numbers, and hyphens.'
     ),

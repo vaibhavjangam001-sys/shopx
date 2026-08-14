@@ -4,12 +4,13 @@ import {
   findProductBySlugRepository,
 } from '../../repositories/product/index.js';
 import { ApiError } from '../../utils/index.js';
+import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
 const updateProductService = async (productId, updateDetails) => {
   const product = await getProductByIdRepository(productId);
 
   if (!product) {
-    throw new ApiError(404, 'Product not found.');
+    throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.PRODUCT.NOT_FOUND);
   }
 
   if (updateDetails.slug && updateDetails.slug !== product.slug) {
@@ -18,7 +19,10 @@ const updateProductService = async (productId, updateDetails) => {
     );
 
     if (productWithSlug) {
-      throw new ApiError(409, 'Product with this slug aready exists.');
+      throw new ApiError(
+        HTTP_STATUS.CONFLICT,
+        MESSAGES.PRODUCT.SLUG_ALREADY_EXISTS
+      );
     }
   }
 
@@ -28,7 +32,10 @@ const updateProductService = async (productId, updateDetails) => {
   );
 
   if (!updatedProduct) {
-    throw new ApiError(500, 'Failed to update product.');
+    throw new ApiError(
+      HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      MESSAGES.PRODUCT.UPDATE_FAILED
+    );
   }
 
   return updatedProduct;

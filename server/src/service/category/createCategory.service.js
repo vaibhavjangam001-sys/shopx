@@ -3,6 +3,7 @@ import {
   createCategoryRepository,
   findCategoryBySlugRepository,
 } from '../../repositories/category/index.js';
+import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
 const createCategoryService = async (categoryData) => {
   const { category, slug, description } = categoryData;
@@ -10,7 +11,10 @@ const createCategoryService = async (categoryData) => {
   const existingCategory = await findCategoryBySlugRepository(slug);
 
   if (existingCategory) {
-    throw new ApiError(409, 'Category with this slug already exists.');
+    throw new ApiError(
+      HTTP_STATUS.CONFLICT,
+      MESSAGES.CATEGORY.SLUG_ALREADY_EXISTS
+    );
   }
 
   const categoryDataToCreate = {
@@ -22,7 +26,10 @@ const createCategoryService = async (categoryData) => {
   const createdCategory = await createCategoryRepository(categoryDataToCreate);
 
   if (!createdCategory) {
-    throw new ApiError(500, 'Failed to create category.');
+    throw new ApiError(
+      HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      MESSAGES.CATEGORY.CREATE_FAILED
+    );
   }
 
   return createdCategory;

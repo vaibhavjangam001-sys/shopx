@@ -4,12 +4,13 @@ import {
   findCategoryBySlugRepository,
   getCategoryByIdRepository,
 } from '../../repositories/category/index.js';
+import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
 const updateCategoryService = async (categoryId, updateDetails) => {
   const existingCategory = await getCategoryByIdRepository(categoryId);
 
   if (!existingCategory) {
-    throw new ApiError(404, 'Category not found.');
+    throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.CATEGORY.NOT_FOUND);
   }
 
   if (updateDetails.slug && updateDetails.slug !== existingCategory.slug) {
@@ -18,7 +19,10 @@ const updateCategoryService = async (categoryId, updateDetails) => {
     );
 
     if (categoryWithSlug) {
-      throw new ApiError(409, 'Category with this slug already exists.');
+      throw new ApiError(
+        HTTP_STATUS.CONFLICT,
+        MESSAGES.CATEGORY.SLUG_ALREADY_EXISTS
+      );
     }
   }
 
@@ -28,7 +32,10 @@ const updateCategoryService = async (categoryId, updateDetails) => {
   );
 
   if (!updatedCategory) {
-    throw new ApiError(500, 'Failed to update Category.');
+    throw new ApiError(
+      HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      MESSAGES.CATEGORY.UPDATE_FAILED
+    );
   }
 
   return updatedCategory;
