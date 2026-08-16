@@ -12,7 +12,7 @@ import {
   updateProductValidator,
   productQueryValidator,
 } from '../../validators/product/index.js';
-import { validationMiddleware } from '../../middlewares/index.js';
+import { validationMiddleware, upload } from '../../middlewares/index.js';
 
 const productRouter = Router();
 
@@ -31,8 +31,16 @@ productRouter.get(
 productRouter.get('/:productId', getProductByIdController);
 
 // create product
+console.log('start');
 productRouter.post(
   '/',
+  upload.array('images', 5),
+  (req, res, next) => {
+    console.log('✅ Multer passed');
+    console.log('Body:', req.body);
+    console.log('Files:', req.files?.length);
+    next();
+  },
   createProductValidator,
   validationMiddleware,
   createProductController

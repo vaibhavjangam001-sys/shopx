@@ -23,6 +23,7 @@ const MESSAGES = Object.freeze({
     CREATE_FAILED: 'Failed to create product.',
     UPDATE_FAILED: 'Failed to update product.',
     DELETE_FAILED: 'Failed to delete product.',
+    IMAGE_REQUIRED: 'At least one product image is required',
   },
 
   SERVER: {
