@@ -27,7 +27,9 @@ const deleteImage = (publicId) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.destroy(
       publicId,
-      { resource_type: 'image' },
+      {
+        resource_type: 'image',
+      },
       (error, result) => {
         if (error) {
           return reject(error);
@@ -49,21 +51,13 @@ const uploadMultipleImages = async (files, folder) => {
   try {
     for (const file of files) {
       const image = await uploadImage(file.buffer, folder);
+
       uploadedImages.push(image);
     }
 
     return uploadedImages;
   } catch (error) {
-    for (const image of uploadedImages) {
-      try {
-        await deleteImage(image.publicId);
-      } catch (cleanupError) {
-        console.error(
-          `Failed to cleanup image : ${image.publicId}`,
-          cleanupError
-        );
-      }
-    }
+    await deleteMultipleImages(uploadedImages);
 
     throw error;
   }
@@ -78,7 +72,10 @@ const deleteMultipleImages = async (images) => {
     try {
       await deleteImage(image.publicId);
     } catch (error) {
-      console.error(`Failed to cleanup image: ${image.publicId}`, error);
+      console.error(
+        `Failed to delete Cloudinary image: ${image.publicId}`,
+        error
+      );
     }
   }
 };

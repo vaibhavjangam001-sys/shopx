@@ -4,17 +4,16 @@ import { HTTP_STATUS } from '../constants/index.js';
 
 const storage = multer.memoryStorage();
 
-const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
-const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp'];
 
 const fileFilter = (req, file, cb) => {
   const extension = file.originalname
     ?.slice(file.originalname.lastIndexOf('.'))
     .toLowerCase();
-  const isAllowedMime = allowedMimeTypes.includes(file.mimetype);
-  const isAllowedExtension = allowedExtensions.includes(extension);
 
-  if (!isAllowedMime && !isAllowedExtension) {
+  const isValidExtension = ALLOWED_EXTENSIONS.includes(extension);
+
+  if (!isValidExtension) {
     return cb(
       new ApiError(
         HTTP_STATUS.BAD_REQUEST,
