@@ -15,7 +15,6 @@ import {
 } from '../../constants/index.js';
 
 const createProductService = async (productData) => {
-  console.log('service create product');
   const {
     productName,
     slug,

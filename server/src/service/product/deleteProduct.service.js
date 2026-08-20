@@ -4,6 +4,7 @@ import {
 } from '../../repositories/product/index.js';
 import { ApiError } from '../../utils/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
+import { deleteMultipleImages } from '../../utils/index.js';
 
 const deleteProductService = async (productId) => {
   const existingProduct = await getProductByIdRepository(productId);
@@ -20,6 +21,8 @@ const deleteProductService = async (productId) => {
       MESSAGES.PRODUCT.DELETE_FAILED
     );
   }
+
+  await deleteMultipleImages(existingProduct.images);
 
   return deletedProduct;
 };

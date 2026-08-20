@@ -3,7 +3,6 @@ import { createProductService } from '../../service/product/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
 const createProductController = AsyncHandler(async (req, res) => {
-  console.log('controller create product');
   const product = await createProductService({
     ...req.body,
     images: req.files,
