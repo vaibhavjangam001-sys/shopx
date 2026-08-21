@@ -3,6 +3,7 @@ import {
   getProductByIdRepository,
   findProductBySlugRepository,
 } from '../../repositories/product/index.js';
+import { getCategoryByIdRepository } from '../../repositories/category/index.js';
 import { ApiError } from '../../utils/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
@@ -13,9 +14,30 @@ const updateProductService = async (productId, updateDetails) => {
     throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.PRODUCT.NOT_FOUND);
   }
 
-  if (updateDetails.slug && updateDetails.slug !== product.slug) {
+  const allowedFields = [
+    'productName',
+    'slug',
+    'sku',
+    'brand',
+    'description',
+    'category',
+    'price',
+    'discountPrice',
+    'stock',
+    'status',
+    'isFeatured',
+  ];
+
+  const sanitizedUpdateDetails = Object.fromEntries(
+    Object.entries(updateDetails).filter(([key]) => allowedFields.includes(key))
+  );
+
+  if (
+    sanitizedUpdateDetails.slug &&
+    sanitizedUpdateDetails.slug !== product.slug
+  ) {
     const productWithSlug = await findProductBySlugRepository(
-      updateDetails.slug
+      sanitizedUpdateDetails.slug
     );
 
     if (productWithSlug) {
@@ -26,9 +48,34 @@ const updateProductService = async (productId, updateDetails) => {
     }
   }
 
+  if (sanitizedUpdateDetails.category) {
+    const isCategoryExists = await getCategoryByIdRepository(
+      sanitizedUpdateDetails.category
+    );
+
+    if (!isCategoryExists) {
+      throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.CATEGORY.NOT_FOUND);
+    }
+  }
+
+  const finalPrice = sanitizedUpdateDetails.price ?? product.price;
+  const finalDiscountPrice =
+    sanitizedUpdateDetails.discountPrice ?? product.discountPrice;
+
+  if (
+    finalDiscountPrice !== null &&
+    finalDiscountPrice !== undefined &&
+    finalDiscountPrice > finalPrice
+  ) {
+    throw new ApiError(
+      HTTP_STATUS.BAD_REQUEST,
+      MESSAGES.PRODUCT.DISCOUNT_PRICE_INVALID
+    );
+  }
+
   const updatedProduct = await updateProductRepository(
     productId,
-    updateDetails
+    sanitizedUpdateDetails
   );
 
   if (!updatedProduct) {

@@ -10,6 +10,7 @@ const MESSAGES = Object.freeze({
     CREATE_FAILED: 'Failed to create category.',
     UPDATE_FAILED: 'Failed to update Category.',
     DELETE_FAILED: 'Failed to delete category.',
+    HAS_PRODUCTS: 'Cannot delete category because it has associated products.',
   },
 
   PRODUCT: {

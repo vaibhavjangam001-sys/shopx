@@ -4,3 +4,4 @@ export { default as getProductByIdRepository } from './getProductById.repository
 export { default as updateProductRepository } from './updateProduct.repository.js';
 export { default as deleteProductRepository } from './deleteProduct.repository.js';
 export { default as findProductBySlugRepository } from './findProductBySlug.repository.js';
+export { default as getAllProductByCategoryRepository } from './getAllProductByCategory.repository.js';

@@ -68,7 +68,15 @@ const createProductValidator = [
   body('discountPrice')
     .optional({ values: 'null' })
     .isFloat({ min: 0 })
-    .withMessage('Discount price must be a non-negative number.'),
+    .withMessage('Discount price must be a non-negative number.')
+    .bail()
+    .custom((discountPrice, { req }) => {
+      if (discountPrice > req.body.price) {
+        throw new Error('Discount price cannot be greater than product price.');
+      }
+
+      return true;
+    }),
 
   body('stock')
     .notEmpty()

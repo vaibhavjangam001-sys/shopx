@@ -13,6 +13,8 @@ const deleteProductService = async (productId) => {
     throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.PRODUCT.NOT_FOUND);
   }
 
+  await deleteMultipleImages(existingProduct.images);
+
   const deletedProduct = await deleteProductRepository(productId);
 
   if (!deletedProduct) {
@@ -21,8 +23,6 @@ const deleteProductService = async (productId) => {
       MESSAGES.PRODUCT.DELETE_FAILED
     );
   }
-
-  await deleteMultipleImages(existingProduct.images);
 
   return deletedProduct;
 };

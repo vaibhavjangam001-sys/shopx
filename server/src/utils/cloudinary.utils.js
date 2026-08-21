@@ -69,14 +69,7 @@ const deleteMultipleImages = async (images) => {
   }
 
   for (const image of images) {
-    try {
-      await deleteImage(image.publicId);
-    } catch (error) {
-      console.error(
-        `Failed to delete Cloudinary image: ${image.publicId}`,
-        error
-      );
-    }
+    await deleteImage(image.publicId);
   }
 };
 

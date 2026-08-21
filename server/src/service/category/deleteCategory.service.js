@@ -3,6 +3,7 @@ import {
   deleteCategoryRepository,
   getCategoryByIdRepository,
 } from '../../repositories/category/index.js';
+import { getAllProductByCategoryRepository } from '../../repositories/product/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
 const deleteCategoryService = async (categoryId) => {
@@ -10,6 +11,12 @@ const deleteCategoryService = async (categoryId) => {
 
   if (!existingCategory) {
     throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.CATEGORY.NOT_FOUND);
+  }
+
+  const product = await getAllProductByCategoryRepository(categoryId);
+
+  if (product) {
+    throw new ApiError(HTTP_STATUS.CONFLICT, MESSAGES.CATEGORY.HAS_PRODUCTS);
   }
 
   const deletedCategory = await deleteCategoryRepository(categoryId);

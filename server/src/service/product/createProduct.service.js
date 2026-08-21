@@ -84,8 +84,6 @@ const createProductService = async (productData) => {
 
     return createdProduct;
   } catch (error) {
-    console.error('CREATE PRODUCT ERROR:', error);
-    this;
     await deleteMultipleImages(uploadedImages);
     if (error instanceof ApiError) throw error;
     throw new ApiError(
