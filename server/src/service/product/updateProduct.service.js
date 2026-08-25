@@ -4,10 +4,19 @@ import {
   findProductBySlugRepository,
 } from '../../repositories/product/index.js';
 import { getCategoryByIdRepository } from '../../repositories/category/index.js';
-import { ApiError } from '../../utils/index.js';
-import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
+import {
+  ApiError,
+  deleteMultipleImages,
+  uploadMultipleImages,
+} from '../../utils/index.js';
+import {
+  HTTP_STATUS,
+  MESSAGES,
+  CLOUDINARY_FOLDERS,
+} from '../../constants/index.js';
 
-const updateProductService = async (productId, updateDetails) => {
+const updateProductService = async (productDetails) => {
+  const { productId, updateDetails, images } = productDetails;
   const product = await getProductByIdRepository(productId);
 
   if (!product) {
@@ -65,7 +74,7 @@ const updateProductService = async (productId, updateDetails) => {
   if (
     finalDiscountPrice !== null &&
     finalDiscountPrice !== undefined &&
-    finalDiscountPrice > finalPrice
+    finalDiscountPrice >= finalPrice
   ) {
     throw new ApiError(
       HTTP_STATUS.BAD_REQUEST,
@@ -73,19 +82,60 @@ const updateProductService = async (productId, updateDetails) => {
     );
   }
 
-  const updatedProduct = await updateProductRepository(
-    productId,
-    sanitizedUpdateDetails
-  );
+  const oldImages = product.images || [];
+  let uploadedImages = [];
+  let updatedProduct;
 
-  if (!updatedProduct) {
+  try {
+    if (images?.length > 0) {
+      uploadedImages = await uploadMultipleImages(
+        images,
+        CLOUDINARY_FOLDERS.PRODUCTS
+      );
+
+      sanitizedUpdateDetails.images = uploadedImages;
+    }
+
+    updatedProduct = await updateProductRepository(
+      productId,
+      sanitizedUpdateDetails
+    );
+
+    if (!updatedProduct) {
+      throw new ApiError(
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        MESSAGES.PRODUCT.UPDATE_FAILED
+      );
+    }
+
+    if (images?.length > 0 && oldImages.length > 0) {
+      try {
+        await deleteMultipleImages(oldImages);
+      } catch (error) {
+        console.error(
+          'Failed to delete old product images from Cloudinary:',
+          error
+        );
+      }
+    }
+
+    return updatedProduct;
+  } catch (error) {
+    console.error('UPDATE PRODUCT ERROR:', error);
+
+    if (uploadedImages.length > 0) {
+      await deleteMultipleImages(uploadedImages);
+    }
+
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
     throw new ApiError(
       HTTP_STATUS.INTERNAL_SERVER_ERROR,
       MESSAGES.PRODUCT.UPDATE_FAILED
     );
   }
-
-  return updatedProduct;
 };
 
 export default updateProductService;

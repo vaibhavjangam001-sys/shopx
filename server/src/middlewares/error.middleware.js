@@ -3,6 +3,14 @@ import { HTTP_STATUS, MESSAGES } from '../constants/index.js';
 import multer from 'multer';
 
 const errorMiddleware = (err, req, res, next) => {
+  console.error({
+    name: err.name,
+    message: err.message,
+    stack: err.stack,
+    method: req.method,
+    url: req.originalUrl,
+  });
+
   let statusCode = HTTP_STATUS.INTERNAL_SERVER_ERROR;
   let message = MESSAGES.SERVER.INTERNAL_ERROR;
   let errors = [];

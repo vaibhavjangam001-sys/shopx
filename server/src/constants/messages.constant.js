@@ -25,6 +25,7 @@ const MESSAGES = Object.freeze({
     UPDATE_FAILED: 'Failed to update product.',
     DELETE_FAILED: 'Failed to delete product.',
     IMAGE_REQUIRED: 'At least one product image is required',
+    DISCOUNT_PRICE_INVALID: 'Discount price must be less than product price',
   },
 
   SERVER: {

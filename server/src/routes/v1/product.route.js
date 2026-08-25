@@ -42,6 +42,7 @@ productRouter.post(
 // update product
 productRouter.patch(
   '/:productId',
+  upload.array('images', 5),
   updateProductValidator,
   validationMiddleware,
   updateProductController

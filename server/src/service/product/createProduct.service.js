@@ -85,7 +85,11 @@ const createProductService = async (productData) => {
     return createdProduct;
   } catch (error) {
     await deleteMultipleImages(uploadedImages);
-    if (error instanceof ApiError) throw error;
+
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
     throw new ApiError(
       HTTP_STATUS.INTERNAL_SERVER_ERROR,
       MESSAGES.PRODUCT.CREATE_FAILED
