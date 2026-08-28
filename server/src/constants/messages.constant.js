@@ -33,6 +33,8 @@ const MESSAGES = Object.freeze({
     LOGIN_FAILED: 'Invalid email or password',
     REGISTERED: 'User Registered successfully',
     LOGIN: 'User logged successfully',
+    EMAIL_ALREADY_EXISTS: 'User with this email already exists.',
+    PHONE_ALREADY_EXISTS: 'User with this phone number already exists.',
   },
 
   USER: {},

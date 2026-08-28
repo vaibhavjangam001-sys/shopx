@@ -12,6 +12,7 @@ const requiredEnv = [
   'CLOUDINARY_CLOUD_NAME',
   'CLOUDINARY_API_KEY',
   'CLOUDINARY_API_SECRET',
+  'BCRYPT_SALT_ROUNDS',
 ];
 
 for (const key of requiredEnv) {
@@ -36,13 +37,20 @@ if (!allowedEnvironments.includes(NODE_ENV)) {
   );
 }
 
-const env = {
-  NODE_ENV,
-  PORT,
+const BCRYPT_SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS);
+
+if (!Number.isInteger(BCRYPT_SALT_ROUNDS)) {
+  throw new Error('BCRYPT_SALT_ROUNDS must be a valid number.');
+}
+
+const env = Object.freeze({
+  NODE_ENV: NODE_ENV,
+  PORT: PORT,
   MONGO_URI: process.env.MONGO_URI,
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
-};
+  BCRYPT_SALT_ROUNDS: BCRYPT_SALT_ROUNDS,
+});
 
 export default env;

@@ -3,11 +3,17 @@ import { ApiResponse, AsyncHandler } from '../../utils/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
 const registerUserController = AsyncHandler(async (req, res) => {
-  const user = await registerUserService(req.body);
+  const registeredUserData = await registerUserService(req.body);
 
   res
     .status(HTTP_STATUS.CREATED)
-    .json(new ApiResponse(HTTP_STATUS.CREATED, user, MESSAGES.AUTH.REGISTERED));
+    .json(
+      new ApiResponse(
+        HTTP_STATUS.CREATED,
+        registeredUserData,
+        MESSAGES.AUTH.REGISTERED
+      )
+    );
 });
 
 export default registerUserController;

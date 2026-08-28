@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import { env } from '../config/index.js';
 
 const userSchema = new mongoose.Schema(
   {
@@ -6,14 +8,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      lowercase: true,
     },
 
     lastName: {
       type: String,
       required: true,
       trim: true,
-      lowercase: true,
     },
 
     phone: {
@@ -41,6 +41,14 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.pre('save', async function () {
+  if (!this.isModified('password')) {
+    return;
+  }
+
+  this.password = await bcrypt.hash(this.password, env.BCRYPT_SALT_ROUNDS);
+});
 
 const User = mongoose.model('User', userSchema);
 
