@@ -29,15 +29,19 @@ const MESSAGES = Object.freeze({
   },
 
   AUTH: {
-    REGISTER_FAILED: 'Failed to register user',
-    LOGIN_FAILED: 'Invalid email or password',
-    REGISTERED: 'User Registered successfully',
-    LOGIN: 'User logged successfully',
+    REGISTER_FAILED: 'Failed to register user.',
+    LOGIN_FAILED: 'Invalid email or password.',
+    REGISTERED: 'User Registered successfully.',
+    LOGIN: 'User logged successfully.',
     EMAIL_ALREADY_EXISTS: 'User with this email already exists.',
     PHONE_ALREADY_EXISTS: 'User with this phone number already exists.',
   },
 
-  USER: {},
+  USER: {
+    NOT_FOUND: 'User not found.',
+    DELETE_FAILED: 'Failed to delete user.',
+    DELETED: 'User deleted successfully.',
+  },
 
   SERVER: {
     INTERNAL_ERROR: 'Internal server error.',
