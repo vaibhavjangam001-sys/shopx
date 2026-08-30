@@ -1,7 +1,14 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import { REGEX } from '../../constants/index.js';
 
 const updateProductValidator = [
+  param('productId')
+    .notEmpty()
+    .withMessage('Product ID is required.')
+    .bail()
+    .isMongoId()
+    .withMessage('Invalid Product ID.'),
+
   body('productName')
     .optional()
     .trim()
