@@ -41,6 +41,9 @@ const MESSAGES = Object.freeze({
     NOT_FOUND: 'User not found.',
     DELETE_FAILED: 'Failed to delete user.',
     DELETED: 'User deleted successfully.',
+    FETCHED_ALL: 'Users fetched successfully.',
+    FETCHED: 'User fetched successfully.',
+    NOT_FOUND_BY_PHONE: 'User with this phone number not found.',
   },
 
   SERVER: {
