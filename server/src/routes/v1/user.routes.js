@@ -9,13 +9,19 @@ import {
   deleteUserValidator,
   getUserByIdValidator,
   getUserByPhoneValidator,
+  userQueryValidator,
 } from '../../validators/user/index.js';
 import { validationMiddleware } from '../../middlewares/index.js';
 
 const userRouter = Router();
 
 // Get all users :-
-userRouter.get('/', getAllUsersController);
+userRouter.get(
+  '/',
+  userQueryValidator,
+  validationMiddleware,
+  getAllUsersController
+);
 
 // Get User by Id :-
 userRouter.get(

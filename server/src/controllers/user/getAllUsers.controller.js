@@ -3,7 +3,7 @@ import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 import { getAllUsersService } from '../../service/user/index.js';
 
 const getAllUsersController = AsyncHandler(async (req, res) => {
-  const users = await getAllUsersService();
+  const users = await getAllUsersService(req.query);
 
   res
     .status(HTTP_STATUS.OK)

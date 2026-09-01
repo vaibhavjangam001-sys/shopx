@@ -8,87 +8,56 @@ class ApiFeatures {
     this.limit = 10;
   }
 
-  search() {
-    const keyword = this.queryParams.keyword
-      ? {
-          productName: {
-            $regex: this.queryParams.keyword,
-            $options: 'i',
-          },
-        }
-      : {};
+  search(searchFields = []) {
+    const keyword = this.queryParams.keyword?.trim();
+
+    if (!keyword || searchFields.length === 0) {
+      return this;
+    }
+
+    const searchQuery = {
+      $or: searchFields.map((field) => ({
+        [field]: {
+          $regex: keyword,
+          $options: 'i',
+        },
+      })),
+    };
 
     this.filterQuery = {
       ...this.filterQuery,
-      ...keyword,
+      ...searchQuery,
     };
 
-    this.query = this.query.find(keyword);
+    this.query = this.query.find(searchQuery);
 
     return this;
   }
 
-  filters() {
-    const filters = {};
-
-    if (this.queryParams.category) {
-      filters.category = this.queryParams.category;
-    }
-
-    if (this.queryParams.brand) {
-      filters.brand = {
-        $regex: this.queryParams.brand,
-        $options: 'i',
-      };
-    }
-
-    if (this.queryParams.minPrice || this.queryParams.maxPrice) {
-      filters.price = {};
-
-      if (this.queryParams.minPrice) {
-        filters.price.$gte = Number(this.queryParams.minPrice);
-      }
-
-      if (this.queryParams.maxPrice) {
-        filters.price.$lte = Number(this.queryParams.maxPrice);
-      }
-    }
-
-    if (this.queryParams.minRating) {
-      filters.rating = {
-        $gte: Number(this.queryParams.minRating),
-      };
-    }
-
-    if (this.queryParams.status) {
-      filters.status = this.queryParams.status;
-    }
-
-    if (this.queryParams.isFeatured !== undefined) {
-      filters.isFeatured = this.queryParams.isFeatured === 'true';
+  filter(filterQuery = {}) {
+    if (Object.keys(filterQuery).length === 0) {
+      return this;
     }
 
     this.filterQuery = {
       ...this.filterQuery,
-      ...filters,
+      ...filterQuery,
     };
 
-    this.query = this.query.find(filters);
+    this.query = this.query.find(filterQuery);
 
     return this;
   }
 
-  sort() {
+  sort(allowedFields = []) {
     const sortBy = this.queryParams.sort;
 
     if (sortBy) {
       const sortFields = sortBy.split(',');
 
-      const allowedSortFields = ['price', 'rating', 'productName', 'createdAt'];
-
       const validSortFields = sortFields.filter((field) => {
         const fieldName = field.startsWith('-') ? field.slice(1) : field;
-        return allowedSortFields.includes(fieldName);
+        return allowedFields.includes(fieldName);
       });
 
       if (validSortFields.length > 0) {
@@ -103,26 +72,18 @@ class ApiFeatures {
     return this;
   }
 
-  fields() {
+  fields(allowedFields = []) {
     const fields = this.queryParams.fields;
 
-    const allowedFields = [
-      'productName',
-      'price',
-      'discountPrice',
-      'rating',
-      'numOfReviews',
-      'images',
-      'description',
-    ];
+    if (!fields || allowedFields.length === 0) {
+      return this;
+    }
 
-    if (fields) {
-      const fieldArray = fields.split(',');
+    const validFields = fields
+      .split(',')
+      .filter((field) => allowedFields.includes(field));
 
-      const validFields = fieldArray.filter((field) => {
-        return allowedFields.includes(field);
-      });
-
+    if (validFields.length > 0) {
       this.query = this.query.select(validFields.join(' '));
     }
 

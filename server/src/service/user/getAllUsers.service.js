@@ -1,9 +1,24 @@
 import { getAllUsersRepository } from '../../repositories/user/index.js';
 
-const getAllUsersService = async () => {
-  const users = await getAllUsersRepository();
+const getAllUsersService = async (queryParams) => {
+  const { users, totalUsers, currentPage, limit } =
+    await getAllUsersRepository(queryParams);
 
-  return users;
+  const totalPages = Math.ceil(totalUsers / limit);
+  const hasNextPage = currentPage < totalPages;
+  const hasPreviousPage = currentPage > 1;
+
+  return {
+    users,
+    pagination: {
+      totalUsers,
+      totalPages,
+      currentPage,
+      limit,
+      hasNextPage,
+      hasPreviousPage,
+    },
+  };
 };
 
 export default getAllUsersService;
