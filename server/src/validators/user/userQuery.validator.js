@@ -1,6 +1,43 @@
 import { query } from 'express-validator';
+import { REGEX } from '../../constants/index.js';
 
 const userQueryValidator = [
+  query('firstName')
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage('First name is required.')
+    .bail()
+    .isLength({ min: 1, max: 50 })
+    .withMessage('firstName must be between 1 and 50 characters'),
+
+  query('lastName')
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage('First name is required.')
+    .bail()
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Last name must be between 1 and 50 characters'),
+
+  query('phone')
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage('Phone number is required.')
+    .bail()
+    .matches(REGEX.PHONE_REGEX)
+    .withMessage('Invalid phone number.'),
+
+  query('email')
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage('Email is required.')
+    .bail()
+    .matches(REGEX.EMAIL_REGEX)
+    .withMessage('Invalid email'),
+
   query('page')
     .optional()
     .isInt({ min: 1 })

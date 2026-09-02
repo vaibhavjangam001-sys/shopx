@@ -91,8 +91,12 @@ class ApiFeatures {
   }
 
   paginate() {
-    this.page = Number(this.queryParams.page) || 1;
-    this.limit = Number(this.queryParams.limit) || 10;
+    const page = Number(this.queryParams.page);
+    const limit = Number(this.queryParams.limit);
+
+    this.page = Number.isInteger(page) && page > 0 ? page : 1;
+    this.limit =
+      Number.isInteger(limit) && limit > 0 ? Math.min(limit, 100) : 10;
 
     const skip = (this.page - 1) * this.limit;
 

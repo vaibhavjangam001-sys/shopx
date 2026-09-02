@@ -25,6 +25,8 @@ const API_FEATURES = Object.freeze({
     'numOfReviews',
     'images',
     'description',
+    'brand',
+    'isFeatured',
   ]),
 
   USER_FIELDS: Object.freeze([

@@ -7,10 +7,29 @@ const getAllUsersRepository = async (queryParams) => {
     'firstName lastName phone email createdAt updatedAt'
   );
 
+  const filterQuery = {};
+
+  if (queryParams.firstName) {
+    filterQuery.firstName = queryParams.firstName;
+  }
+
+  if (queryParams.lastName) {
+    filterQuery.lastName = queryParams.lastName;
+  }
+
+  if (queryParams.phone) {
+    filterQuery.phone = queryParams.phone;
+  }
+
+  if (queryParams.email) {
+    filterQuery.email = queryParams.email;
+  }
+
   const features = new ApiFeatures(query, queryParams);
 
   features
     .search(API_FEATURERS.USER_SEARCH_FIELDS)
+    .filter(filterQuery)
     .sort(API_FEATURERS.USER_SORT_FIELDS)
     .paginate();
 
