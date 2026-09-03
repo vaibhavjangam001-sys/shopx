@@ -30,7 +30,7 @@ const MESSAGES = Object.freeze({
 
   AUTH: {
     REGISTER_FAILED: 'Failed to register user.',
-    LOGIN_FAILED: 'Invalid email or password.',
+    LOGIN_FAILED: 'Invalid credentials.',
     REGISTERED: 'User Registered successfully.',
     LOGIN: 'User logged successfully.',
     EMAIL_ALREADY_EXISTS: 'User with this email already exists.',

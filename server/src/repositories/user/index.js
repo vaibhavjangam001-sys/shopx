@@ -4,3 +4,4 @@ export { default as findUserByPhoneRepository } from './findUserByPhone.reposito
 export { default as createUserRepository } from './createUser.repository.js';
 export { default as deleteUserRepository } from './deleteUser.repository.js';
 export { default as getAllUsersRepository } from './getAllUsers.repository.js';
+export { default as findUserByEmailForLoginRepository } from './findUserByEmailForLogin.repository.js';
