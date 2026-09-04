@@ -13,6 +13,7 @@ const requiredEnv = [
   'CLOUDINARY_API_KEY',
   'CLOUDINARY_API_SECRET',
   'BCRYPT_SALT_ROUNDS',
+  'JWT_ACCESS_SECRET',
 ];
 
 for (const key of requiredEnv) {
@@ -51,6 +52,7 @@ const env = Object.freeze({
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
   BCRYPT_SALT_ROUNDS: BCRYPT_SALT_ROUNDS,
+  JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
 });
 
 export default env;

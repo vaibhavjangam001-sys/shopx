@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   deleteUserController,
   getAllUsersController,
+  getMyProfileController,
   getUserByIdController,
   getUserByPhoneController,
 } from '../../controllers/user/index.js';
@@ -11,7 +12,10 @@ import {
   getUserByPhoneValidator,
   userQueryValidator,
 } from '../../validators/user/index.js';
-import { validationMiddleware } from '../../middlewares/index.js';
+import {
+  authenticationMiddleware,
+  validationMiddleware,
+} from '../../middlewares/index.js';
 
 const userRouter = Router();
 
@@ -30,6 +34,9 @@ userRouter.get(
   validationMiddleware,
   getUserByIdController
 );
+
+// Get my profile :-
+userRouter.get('/get-me', authenticationMiddleware, getMyProfileController);
 
 // Get user by Phone NO :-
 userRouter.get(

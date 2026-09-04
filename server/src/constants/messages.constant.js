@@ -35,6 +35,8 @@ const MESSAGES = Object.freeze({
     LOGIN: 'User logged successfully.',
     EMAIL_ALREADY_EXISTS: 'User with this email already exists.',
     PHONE_ALREADY_EXISTS: 'User with this phone number already exists.',
+    UNAUTHORIZED: 'Authentication required.',
+    INVALID_ACCESS_TOKEN: 'Invalid or expired access token.',
   },
 
   USER: {
