@@ -6,6 +6,7 @@ const generateAccessToken = (user) => {
     {
       id: user._id,
       email: user.email,
+      role: user.role,
     },
     env.JWT_ACCESS_SECRET,
     {

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { env } from '../config/index.js';
+import { ROLES } from '../constants/index.js';
 
 const userSchema = new mongoose.Schema(
   {
@@ -35,6 +36,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       select: false,
+    },
+
+    role: {
+      type: String,
+      enum: Object.values(ROLES),
+      default: ROLES.USER,
     },
   },
   {

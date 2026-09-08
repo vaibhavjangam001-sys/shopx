@@ -37,6 +37,11 @@ const MESSAGES = Object.freeze({
     PHONE_ALREADY_EXISTS: 'User with this phone number already exists.',
     UNAUTHORIZED: 'Authentication required.',
     INVALID_ACCESS_TOKEN: 'Invalid or expired access token.',
+    INVALID_REFRESH_TOKEN: 'Invalid refresh token.',
+    EXPIRED_REFRESH_TOKEN: 'Refresh token expired.',
+    LOGOUT_SUCCESS: 'Logged out successfully',
+    REFRESH_TOKEN_SUCCESS: 'Token refreshed successfully.',
+    FORBIDDEN: 'You do not have permission to perform this action.',
   },
 
   USER: {

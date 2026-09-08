@@ -9,24 +9,44 @@ import {
 } from '../../controllers/category/index.js';
 import {
   createCategoryValidator,
+  deleteCategoryValidator,
   updateCategoryValidator,
+  findCategoryBySlugValidator,
+  findCategoryByIdValidator,
 } from '../../validators/category/index.js';
-import { validationMiddleware } from '../../middlewares/index.js';
+import {
+  authenticationMiddleware,
+  authorizeMiddleware,
+  validationMiddleware,
+} from '../../middlewares/index.js';
+import { ROLES } from '../../constants/index.js';
 
 const categoryRouter = Router();
 
 // find category by slug
-categoryRouter.get('/slug/:slug', findCategoryBySlugController);
+categoryRouter.get(
+  '/slug/:slug',
+  findCategoryBySlugValidator,
+  validationMiddleware,
+  findCategoryBySlugController
+);
 
 // get all categories
 categoryRouter.get('/', getAllCategoriesController);
 
 // get category by id
-categoryRouter.get('/:categoryId', getCategoryByIdController);
+categoryRouter.get(
+  '/:categoryId',
+  findCategoryByIdValidator,
+  validationMiddleware,
+  getCategoryByIdController
+);
 
 // create category
 categoryRouter.post(
   '/',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN),
   createCategoryValidator,
   validationMiddleware,
   createCategoryController
@@ -35,12 +55,21 @@ categoryRouter.post(
 // update category
 categoryRouter.patch(
   '/:categoryId',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN),
   updateCategoryValidator,
   validationMiddleware,
   updateCategoryController
 );
 
 // delete category
-categoryRouter.delete('/:categoryId', deleteCategoryController);
+categoryRouter.delete(
+  '/:categoryId',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN),
+  deleteCategoryValidator,
+  validationMiddleware,
+  deleteCategoryController
+);
 
 export default categoryRouter;
