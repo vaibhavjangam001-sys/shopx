@@ -12,6 +12,12 @@ const productQueryValidator = [
     .isLength({ min: 1, max: 50 })
     .withMessage('brand must be between 1 and 50 characters'),
 
+  query('keyword')
+    .optional()
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage('Keyword must not exceed 100 characters'),
+
   query('page')
     .optional()
     .isInt({ min: 1 })

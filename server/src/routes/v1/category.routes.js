@@ -13,6 +13,7 @@ import {
   updateCategoryValidator,
   findCategoryBySlugValidator,
   findCategoryByIdValidator,
+  categoryQueryValidator,
 } from '../../validators/category/index.js';
 import {
   authenticationMiddleware,
@@ -32,7 +33,12 @@ categoryRouter.get(
 );
 
 // get all categories
-categoryRouter.get('/', getAllCategoriesController);
+categoryRouter.get(
+  '/',
+  categoryQueryValidator,
+  validationMiddleware,
+  getAllCategoriesController
+);
 
 // get category by id
 categoryRouter.get(

@@ -11,13 +11,27 @@ import {
   createProductValidator,
   updateProductValidator,
   productQueryValidator,
+  deleteProductValidator,
+  findProductByIdValidator,
+  findProductBySlugValidator,
 } from '../../validators/product/index.js';
-import { validationMiddleware, upload } from '../../middlewares/index.js';
+import {
+  validationMiddleware,
+  upload,
+  authenticationMiddleware,
+  authorizeMiddleware,
+} from '../../middlewares/index.js';
+import { ROLES } from '../../constants/index.js';
 
 const productRouter = Router();
 
 // find product by slug
-productRouter.get('/slug/:slug', findProductBySlugController);
+productRouter.get(
+  '/slug/:slug',
+  findProductBySlugValidator,
+  validationMiddleware,
+  findProductBySlugController
+);
 
 // get all products
 productRouter.get(
@@ -28,11 +42,18 @@ productRouter.get(
 );
 
 // get single product
-productRouter.get('/:productId', getProductByIdController);
+productRouter.get(
+  '/:productId',
+  findProductByIdValidator,
+  validationMiddleware,
+  getProductByIdController
+);
 
 // create product
 productRouter.post(
   '/',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN),
   upload.array('images', 5),
   createProductValidator,
   validationMiddleware,
@@ -42,6 +63,8 @@ productRouter.post(
 // update product
 productRouter.patch(
   '/:productId',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN),
   upload.array('images', 5),
   updateProductValidator,
   validationMiddleware,
@@ -49,6 +72,13 @@ productRouter.patch(
 );
 
 // delete product
-productRouter.delete('/:productId', deleteProductController);
+productRouter.delete(
+  '/:productId',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN),
+  deleteProductValidator,
+  validationMiddleware,
+  deleteProductController
+);
 
 export default productRouter;

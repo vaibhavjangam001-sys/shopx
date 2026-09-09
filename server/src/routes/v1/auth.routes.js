@@ -11,10 +11,7 @@ import {
   refreshTokenAuthValidator,
   registerUserAuthValidator,
 } from '../../validators/auth/index.js';
-import {
-  authenticationMiddleware,
-  validationMiddleware,
-} from '../../middlewares/index.js';
+import { validationMiddleware } from '../../middlewares/index.js';
 
 const authRouter = Router();
 

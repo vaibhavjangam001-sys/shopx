@@ -29,6 +29,20 @@ const API_FEATURES = Object.freeze({
     'isFeatured',
   ]),
 
+  CATEGORY_SEARCH_FIELDS: ['category', 'description'],
+
+  CATEGORY_SORT_FIELDS: ['category', 'createdAt', 'updatedAt'],
+
+  CATEGORY_FIELDS: [
+    'category',
+    'slug',
+    'description',
+    'image',
+    'isActive',
+    'createdAt',
+    'updatedAt',
+  ],
+
   USER_FIELDS: Object.freeze([
     'firstName',
     'lastName',

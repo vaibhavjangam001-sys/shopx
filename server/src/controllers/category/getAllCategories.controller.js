@@ -3,7 +3,7 @@ import { getAllCategoriesService } from '../../service/category/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
 const getAllCategoriesController = AsyncHandler(async (req, res) => {
-  const categories = await getAllCategoriesService();
+  const categories = await getAllCategoriesService(req.query);
 
   res
     .status(HTTP_STATUS.OK)
