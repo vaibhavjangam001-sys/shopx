@@ -1,16 +1,14 @@
 import jwt from 'jsonwebtoken';
 import { env } from '../config/index.js';
 import { ApiError } from '../utils/index.js';
-import { HTTP_STATUS, MESSAGES } from '../constants/index.js';
+import { cookieFeatures, HTTP_STATUS, MESSAGES } from '../constants/index.js';
 
 const authenticationMiddleware = (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const accessToken = req.cookies?.[cookieFeatures.COOKIE_NAMES.ACCESS_TOKEN];
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if (!accessToken) {
     throw new ApiError(HTTP_STATUS.UNAUTHORIZED, MESSAGES.AUTH.UNAUTHORIZED);
   }
-
-  const accessToken = authHeader.split(' ')[1];
 
   if (!accessToken) {
     throw new ApiError(

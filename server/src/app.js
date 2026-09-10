@@ -1,5 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { errorMiddleware } from './middlewares/index.js';
 import routes from './routes/index.js';
 
@@ -9,6 +11,7 @@ const app = express();
 // Global middlewares :-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(morgan('dev'));
 
 // Routers registration :-

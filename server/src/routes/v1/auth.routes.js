@@ -32,19 +32,9 @@ authRouter.post(
 );
 
 // Logout user :-
-authRouter.post(
-  '/logout',
-  logoutUserAuthValidator,
-  validationMiddleware,
-  logoutUserController
-);
+authRouter.post('/logout', logoutUserController);
 
 // Refresh token
-authRouter.post(
-  '/refresh',
-  refreshTokenAuthValidator,
-  validationMiddleware,
-  refreshTokenController
-);
+authRouter.post('/refresh', refreshTokenController);
 
 export default authRouter;

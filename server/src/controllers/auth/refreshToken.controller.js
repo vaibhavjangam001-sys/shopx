@@ -1,19 +1,32 @@
 import { refreshTokenService } from '../../service/auth/index.js';
 import { ApiResponse, AsyncHandler } from '../../utils/index.js';
-import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
+import {
+  cookieFeatures,
+  HTTP_STATUS,
+  MESSAGES,
+} from '../../constants/index.js';
 
 const refreshTokenController = AsyncHandler(async (req, res) => {
-  const { refreshToken } = req.body;
-  const result = await refreshTokenService(refreshToken);
+  const { refreshToken } =
+    req.cookies?.[cookieFeatures.COOKIE_NAMES.REFRESH_TOKEN];
+
+  const { accessToken, refreshToken: newRefreshToken } =
+    await refreshTokenService(refreshToken);
 
   res
+    .cooike(
+      cookieFeatures.COOKIE_NAME.ACCESS_TOKEN,
+      accessToken,
+      cookieFeatures.ACCESS_TOKEN_COOKIE_OPTIONS
+    )
+    .cooike(
+      cookieFeatures.COOKIE_NAME.REFRESH_TOKEN,
+      refreshToken,
+      cookieFeatures.REFRESH_TOKEN_COOKIE_OPTIONS
+    )
     .status(HTTP_STATUS.OK)
     .json(
-      new ApiResponse(
-        HTTP_STATUS.OK,
-        result,
-        MESSAGES.AUTH.REFRESH_TOKEN_SUCCESS
-      )
+      new ApiResponse(HTTP_STATUS.OK, null, MESSAGES.AUTH.REFRESH_TOKEN_SUCCESS)
     );
 });
 

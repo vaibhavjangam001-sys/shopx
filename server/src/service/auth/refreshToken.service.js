@@ -7,6 +7,13 @@ import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 import { createRefreshTokenService } from './index.js';
 
 const refreshTokenService = async (refreshToken) => {
+  if (!refreshToken) {
+    throw new ApiError(
+      HTTP_STATUS.UNAUTHORIZED,
+      MESSAGES.AUTH.INVALID_REFRESH_TOKEN
+    );
+  }
+
   const tokenHash = hashToken(refreshToken);
   const storedToken = await findRefreshTokenByHashRepository(tokenHash);
 
