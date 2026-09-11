@@ -7,8 +7,8 @@ const getMyProfileController = AsyncHandler(async (req, res) => {
   const user = await getMyProfileService(userId);
 
   res
-    .status(HTTP_STATUS.NOT_FOUND)
-    .json(new ApiResponse(HTTP_STATUS.NOT_FOUND, user, MESSAGES.USER.FETCHED));
+    .status(HTTP_STATUS.OK)
+    .json(new ApiResponse(HTTP_STATUS.OK, user, MESSAGES.USER.FETCHED));
 });
 
 export default getMyProfileController;

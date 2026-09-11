@@ -7,8 +7,6 @@ import {
 } from '../../controllers/auth/index.js';
 import {
   loginUserAuthValidator,
-  logoutUserAuthValidator,
-  refreshTokenAuthValidator,
   registerUserAuthValidator,
 } from '../../validators/auth/index.js';
 import { validationMiddleware } from '../../middlewares/index.js';

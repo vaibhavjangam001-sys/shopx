@@ -7,8 +7,7 @@ import {
 } from '../../constants/index.js';
 
 const logoutUserController = AsyncHandler(async (req, res) => {
-  const { refreshToken } =
-    req.cookies?.[cookieFeatures.COOKIE_NAMES.REFRESH_TOKEN];
+  const refreshToken = req.cookies?.[cookieFeatures.COOKIE_NAMES.REFRESH_TOKEN];
 
   if (refreshToken) {
     await logoutUserService(refreshToken);
