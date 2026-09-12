@@ -5,7 +5,9 @@ import { API_FEATURERS } from '../../constants/index.js';
 const getAllProductsRepository = async (queryParams) => {
   const query = Product.find();
 
-  const filterQuery = {};
+  const filterQuery = {
+    isDeleted: false,
+  };
 
   if (queryParams.category) {
     filterQuery.category = queryParams.category;

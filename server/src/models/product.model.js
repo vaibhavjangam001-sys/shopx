@@ -107,6 +107,17 @@ const productSchema = new mongoose.Schema(
       index: true,
     },
 
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
+
     isFeatured: {
       type: Boolean,
       default: false,

@@ -2,7 +2,10 @@ import { Product } from '../../models/index.js';
 
 const updateProductRepository = async (productId, updateDetails) => {
   return Product.findByIdAndUpdate(
-    productId,
+    {
+      _id: productId,
+      isDeleted: false,
+    },
     {
       $set: updateDetails,
     },

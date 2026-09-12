@@ -4,7 +4,6 @@ import {
 } from '../../repositories/product/index.js';
 import { ApiError } from '../../utils/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
-import { deleteMultipleImages } from '../../utils/index.js';
 
 const deleteProductService = async (productId) => {
   const existingProduct = await getProductByIdRepository(productId);
@@ -12,8 +11,6 @@ const deleteProductService = async (productId) => {
   if (!existingProduct) {
     throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.PRODUCT.NOT_FOUND);
   }
-
-  await deleteMultipleImages(existingProduct.images);
 
   const deletedProduct = await deleteProductRepository(productId);
 
