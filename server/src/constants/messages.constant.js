@@ -28,6 +28,12 @@ const MESSAGES = Object.freeze({
     DISCOUNT_PRICE_INVALID: 'Discount price must be less than product price',
   },
 
+  PRODUCT_VARIANT: {
+    CREATED: 'Product variant created successfully',
+    VARIANT_ALREADY_EXISTS: 'Variant SKU already exists.',
+    CREATE_FAILED: 'Failed to create product variant.',
+  },
+
   AUTH: {
     REGISTER_FAILED: 'Failed to register user.',
     LOGIN_FAILED: 'Invalid email or password.',
