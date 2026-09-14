@@ -32,6 +32,13 @@ const MESSAGES = Object.freeze({
     CREATED: 'Product variant created successfully',
     VARIANT_ALREADY_EXISTS: 'Variant SKU already exists.',
     CREATE_FAILED: 'Failed to create product variant.',
+    VARIANT_NOT_FOUND: 'Product variant not found.',
+    FETCHED: 'Product variant fetched successfully.',
+    FETCHED_ALL: 'Product variants fetched successfully.',
+    UPDATED: 'Product variant details updated successfully.',
+    UPDATE_FAILED: 'Failed to update product variant.',
+    DELETE_FAILED: 'Failed to delete product variant.',
+    DELETED: 'Product variant deleted successfully.',
   },
 
   AUTH: {
