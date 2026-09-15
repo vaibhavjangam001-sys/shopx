@@ -2,7 +2,10 @@ import { ProductVariant } from '../../models/index.js';
 
 const deleteProductVariantRepository = async (productVariantId) => {
   return await ProductVariant.findByIdAndUpdate(
-    productVariantId,
+    {
+      _id: productVariantId,
+      isDeleted: false,
+    },
     {
       $set: {
         isDeleted: true,

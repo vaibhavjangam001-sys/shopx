@@ -5,7 +5,10 @@ const updateProductVariantRepository = async (
   productVariantUpdateDetails
 ) => {
   return await ProductVariant.findByIdAndUpdate(
-    productVariantId,
+    {
+      _id: productVariantId,
+      isDeleted: false,
+    },
     {
       $set: productVariantUpdateDetails,
     },
