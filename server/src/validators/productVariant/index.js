@@ -3,3 +3,4 @@ export { default as getProductVariantByIdValidator } from './getProductVariantBy
 export { default as getAllProductVariantsValidator } from './getAllProductVariants.validator.js';
 export { default as updateProductVariantValidator } from './updateProductVariant.validator.js';
 export { default as deleteProductVariantValidator } from './deleteProductVariant.validator.js';
+export { default as productVariantStockValidator } from './productVariantStock.validator.js';

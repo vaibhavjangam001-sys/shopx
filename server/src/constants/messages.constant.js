@@ -39,6 +39,14 @@ const MESSAGES = Object.freeze({
     UPDATE_FAILED: 'Failed to update product variant.',
     DELETE_FAILED: 'Failed to delete product variant.',
     DELETED: 'Product variant deleted successfully.',
+    VARIANT_SKU_ALREADY_EXISTS: 'Product variant SKU already exists.',
+    DISCOUNT_PRICE_INVALID:
+      'Discount price must be less than product variant price',
+    INVALID_QUANTITY: 'Quantity must be a positive integer.',
+    INSUFFICIENT_STOCK: 'Insufficient stock.',
+    FAILED_TO_INCREASE_STOCK: 'Failed to increase product variant stock.',
+    INCREASED: 'Product variant stock increased successfully.',
+    DECREASED: 'Product variant stock decreased successfully.',
   },
 
   AUTH: {

@@ -10,9 +10,17 @@ const updateProductVariantValidator = [
 
   body('sku')
     .optional()
+    .isString()
+    .withMessage('roduct variant SKU must be a string.')
+    .bail()
     .trim()
     .notEmpty()
-    .withMessage('Product variant SKU cannot be empty.'),
+    .withMessage('Product variant SKU cannot be empty.')
+    .bail()
+    .isLength({ min: 2, max: 50 })
+    .withMessage(
+      'Product variant SKU length must be between 2 and 50 characters.'
+    ),
 
   body('price')
     .optional()

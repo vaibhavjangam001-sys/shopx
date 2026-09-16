@@ -3,3 +3,5 @@ export { default as getPorductVariantByIdController } from './getProductVariantB
 export { default as getAllProductVariantsController } from './getAllProductVariants.controller.js';
 export { default as updateProductVariantController } from './updateProductVariant.controller.js';
 export { default as deleteProdutVariantController } from './deleteProductVariant.controller.js';
+export { default as increaseProductVariantStockController } from './increaseProductVariantStock.controller.js';
+export { default as decreaseProductVariantStockController } from './decreaseProductVariantStock.controller.js';

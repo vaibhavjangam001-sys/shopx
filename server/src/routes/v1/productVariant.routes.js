@@ -4,6 +4,7 @@ import {
   deleteProductVariantValidator,
   getAllProductVariantsValidator,
   getProductVariantByIdValidator,
+  productVariantStockValidator,
   updateProductVariantValidator,
 } from '../../validators/productVariant/index.js';
 import {
@@ -13,9 +14,11 @@ import {
 } from '../../middlewares/index.js';
 import {
   createProductVariantController,
+  decreaseProductVariantStockController,
   deleteProdutVariantController,
   getAllProductVariantsController,
   getPorductVariantByIdController,
+  increaseProductVariantStockController,
   updateProductVariantController,
 } from '../../controllers/productVariant/index.js';
 import { ROLES } from '../../constants/index.js';
@@ -56,6 +59,22 @@ productVariantRouter.patch(
   updateProductVariantValidator,
   validationMiddleware,
   updateProductVariantController
+);
+
+// stock increase product variant : -
+productVariantRouter.patch(
+  '/:productVariantId/stock/increase',
+  productVariantStockValidator,
+  validationMiddleware,
+  increaseProductVariantStockController
+);
+
+// stock decrease product variant :-
+productVariantRouter.patch(
+  '/:productVariantId/stock/decrese',
+  productVariantStockValidator,
+  validationMiddleware,
+  decreaseProductVariantStockController
 );
 
 // delete product variant :-
