@@ -8,3 +8,5 @@ const removeCartItemValidator = [
     .isMongoId()
     .withMessage('Invalid product variant ID.'),
 ];
+
+export default removeCartItemValidator;

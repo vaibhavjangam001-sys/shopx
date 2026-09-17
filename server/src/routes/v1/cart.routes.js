@@ -4,6 +4,8 @@ import {
   getMyCartController,
   updateCartItemController,
   removeCartItemController,
+  clearCartController,
+  getCartSummaryController,
 } from '../../controllers/cart/index.js';
 import {
   authenticationMiddleware,
@@ -16,6 +18,9 @@ import {
 } from '../../validators/cart/index.js';
 
 const cartRouter = Router();
+
+// get cart summary
+cartRouter.get('/summary', authenticationMiddleware, getCartSummaryController);
 
 // get my cart :-
 cartRouter.get('/', authenticationMiddleware, getMyCartController);
@@ -46,5 +51,8 @@ cartRouter.delete(
   validationMiddleware,
   removeCartItemController
 );
+
+// clear cart item :-
+cartRouter.delete('/clear', authenticationMiddleware, clearCartController);
 
 export default cartRouter;

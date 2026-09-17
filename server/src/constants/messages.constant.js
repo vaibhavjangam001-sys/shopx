@@ -55,6 +55,8 @@ const MESSAGES = Object.freeze({
     NOT_FOUND: 'Cart not found.',
     ITEM_NOT_FOUND: 'Cart item not found.',
     ITEM_UPDATED: 'Cart item updated successfully.',
+    CLEARED: 'Cart cleared successfully.',
+    SUMMARY_FETCHED: 'Cart summary fetched successfully.',
   },
 
   AUTH: {
