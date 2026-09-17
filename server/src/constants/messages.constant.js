@@ -42,11 +42,19 @@ const MESSAGES = Object.freeze({
     VARIANT_SKU_ALREADY_EXISTS: 'Product variant SKU already exists.',
     DISCOUNT_PRICE_INVALID:
       'Discount price must be less than product variant price',
-    INVALID_QUANTITY: 'Quantity must be a positive integer.',
+    INVALID_QUANTITY: 'Quantity must be a positive integer and at least 1.',
     INSUFFICIENT_STOCK: 'Insufficient stock.',
     FAILED_TO_INCREASE_STOCK: 'Failed to increase product variant stock.',
     INCREASED: 'Product variant stock increased successfully.',
     DECREASED: 'Product variant stock decreased successfully.',
+  },
+
+  CART: {
+    ITEM_ADDED: 'Cart item added successfully.',
+    FETCHED: 'Cart fetched successfully.',
+    NOT_FOUND: 'Cart not found.',
+    ITEM_NOT_FOUND: 'Cart item not found.',
+    ITEM_UPDATED: 'Cart item updated successfully.',
   },
 
   AUTH: {
