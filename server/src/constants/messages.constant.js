@@ -59,6 +59,14 @@ const MESSAGES = Object.freeze({
     SUMMARY_FETCHED: 'Cart summary fetched successfully.',
   },
 
+  WISH_LIST: {
+    ITEM_ADDED: 'Prodcut added successfully to wishlist.',
+    FETCHED: 'Wishlist fetched successfully.',
+    NOT_FOUND: 'Wishlist not found.',
+    ITEM_ROMOVED: 'Product removed successfully from wishlist.',
+    CLEARED: 'Wishlist cleared successfully.',
+  },
+
   AUTH: {
     REGISTER_FAILED: 'Failed to register user.',
     LOGIN_FAILED: 'Invalid email or password.',

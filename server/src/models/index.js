@@ -4,3 +4,4 @@ export { default as User } from './user.model.js';
 export { default as RefreshToken } from './refreshToken.model.js';
 export { default as ProductVariant } from './productVariant.model.js';
 export { default as Cart } from './cart.model.js';
+export { default as Wishlist } from './wishlist.model.js';
