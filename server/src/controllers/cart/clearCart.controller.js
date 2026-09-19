@@ -7,7 +7,7 @@ const clearCartController = AsyncHandler(async (req, res) => {
 
   const clearedCart = await clearCartService(userId);
 
-  req
+  res
     .status(HTTP_STATUS.OK)
     .json(new ApiResponse(HTTP_STATUS.OK, clearedCart, MESSAGES.CART.CLEARED));
 });

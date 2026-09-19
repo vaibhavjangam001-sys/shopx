@@ -16,7 +16,6 @@ const refreshTokenService = async (refreshToken) => {
 
   const tokenHash = hashToken(refreshToken);
   const storedToken = await findRefreshTokenByHashRepository(tokenHash);
-  console.log(storedToken);
 
   if (!storedToken) {
     throw new ApiError(

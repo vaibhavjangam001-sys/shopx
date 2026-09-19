@@ -1,6 +1,9 @@
 import { ApiError } from '../../utils/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
-import { getCartByUserIdRepository } from '../../repositories/cart/index.js';
+import {
+  getCartByUserIdRepository,
+  updateCartItemRepository,
+} from '../../repositories/cart/index.js';
 import { getProductVariantByIdRepository } from '../../repositories/productVariant/index.js';
 
 const updateCartItemService = async (userId, productVariantId, quantity) => {
@@ -28,7 +31,7 @@ const updateCartItemService = async (userId, productVariantId, quantity) => {
   }
 
   const cartItem = myCart.items.find(
-    (item) => item.productVariant.toString() === productVariantId.toString()
+    (item) => item.productVariant._id.toString() === productVariantId.toString()
   );
 
   if (!cartItem) {
@@ -44,7 +47,7 @@ const updateCartItemService = async (userId, productVariantId, quantity) => {
 
   const price = productVariant.price;
 
-  return await updateCartItemService(
+  return await updateCartItemRepository(
     myCart._id,
     productVariantId,
     quantity,

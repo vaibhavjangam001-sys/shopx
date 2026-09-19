@@ -1,4 +1,4 @@
-import { Cart } from '../../models/index.js';
+import { getCartByIdRepository } from './index.js';
 
 const addCartItemRepository = async (
   cartId,
@@ -6,14 +6,14 @@ const addCartItemRepository = async (
   quantity,
   price
 ) => {
-  const cart = await Cart.findById(cartId);
+  const cart = await getCartByIdRepository(cartId);
 
   if (!cart) {
     return null;
   }
 
-  const existingItem = cart.item.find((item) => {
-    item.productVariant.toString() === productVariantId.toString();
+  const existingItem = cart.items.find((item) => {
+    return item.productVariant.toString() === productVariantId.toString();
   });
 
   if (existingItem) {

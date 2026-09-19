@@ -71,7 +71,7 @@ productVariantRouter.patch(
 
 // stock decrease product variant :-
 productVariantRouter.patch(
-  '/:productVariantId/stock/decrese',
+  '/:productVariantId/stock/decrease',
   productVariantStockValidator,
   validationMiddleware,
   decreaseProductVariantStockController

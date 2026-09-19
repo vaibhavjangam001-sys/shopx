@@ -9,7 +9,7 @@ const removeProdcutFromWishlistController = AsyncHandler(async (req, res) => {
   const wishlist = await removeProductFromWishlistService(userId, productId);
 
   res
-    .status(HTTP_STATUS.Ok)
+    .status(HTTP_STATUS.OK)
     .json(
       new ApiResponse(HTTP_STATUS.OK, wishlist, MESSAGES.WISH_LIST.ITEM_ROMOVED)
     );

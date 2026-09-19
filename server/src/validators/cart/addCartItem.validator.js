@@ -1,12 +1,12 @@
 import { body } from 'express-validator';
-import mongoose from 'mongoose';
 
-export const addCartItemValidator = [
+const addCartItemValidator = [
   body('productVariantId')
     .trim()
     .notEmpty()
     .withMessage('Product variant ID is required.')
-    .custom((value) => mongoose.Types.ObjectId.isValid(value))
+    .bail()
+    .isMongoId()
     .withMessage('Invalid product variant ID.'),
 
   body('quantity')

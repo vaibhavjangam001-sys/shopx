@@ -44,7 +44,7 @@ const updateProductVariantService = async (
     productVariantExists.discountPrice;
 
   if (
-    finalDicountPrice !== NULL &&
+    finalDicountPrice !== null &&
     finalDicountPrice !== undefined &&
     finalDicountPrice > finalPrice
   ) {

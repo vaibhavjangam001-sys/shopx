@@ -1,4 +1,7 @@
-import { getProductVariantByIdRepository } from '../../repositories/productVariant/index.js';
+import {
+  getProductVariantByIdRepository,
+  increaseProductVariantStockRepository,
+} from '../../repositories/productVariant/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 import { ApiError } from '../../utils/index.js';
 
@@ -23,7 +26,7 @@ const increaseProductVariantStockService = async (
     );
   }
 
-  const updatedProductVariant = await increaseProductVariantStockService(
+  const updatedProductVariant = await increaseProductVariantStockRepository(
     productVariantId,
     quantity
   );

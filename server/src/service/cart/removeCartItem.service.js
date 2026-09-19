@@ -16,7 +16,7 @@ const removeCartItemService = async (userId, productVariantId) => {
   }
 
   const cartItem = cart.items.find((item) => {
-    return item.productVariant.toString() === productVariantId.toString();
+    return item.productVariant._id.toString() === productVariantId.toString();
   });
 
   if (!cartItem) {
