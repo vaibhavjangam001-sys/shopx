@@ -4,6 +4,7 @@ const REGEX = Object.freeze({
   PASSWORD_REGEX: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/,
   EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   PHONE_REGEX: /^[6-9]\d{9}$/,
+  POSTAL_CODE: /^\d{6}$/,
 });
 
 export default REGEX;

@@ -92,6 +92,20 @@ const MESSAGES = Object.freeze({
     NOT_FOUND_BY_PHONE: 'User with this phone number not found.',
   },
 
+  ADDRESS: {
+    CREATED: 'Address created successfully.',
+    FETCHED_ALL: 'addresses fetched successfully.',
+    ADDRESS_NOT_FOUND: 'Address not found.',
+    FETCHED: 'address fetched successfully.',
+    UPDATE_FAILED: 'Failed to update address.',
+    UPDATED: 'Address updated successfully.',
+    DELETE_FAILED: 'Failed to delete address.',
+    DELETED: 'Address deleted successfully.',
+    FAILED_TO_UNSET: ' Failed to unset addresses.',
+    FAILED_TO_SET: 'Failed to set address as default.',
+    SET_SUCCESS: 'Address set ad default successfully',
+  },
+
   SERVER: {
     INTERNAL_ERROR: 'Internal server error.',
   },

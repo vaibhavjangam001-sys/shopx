@@ -7,6 +7,7 @@ import userRouter from './user.routes.js';
 import productVariantRouter from './productVariant.routes.js';
 import cartRouter from './cart.routes.js';
 import wishlistRouter from './wishlist.routes.js';
+import addressRouter from './address.routes.js';
 
 const v1Router = Router();
 
@@ -17,5 +18,6 @@ v1Router.use('/users', userRouter);
 v1Router.use('/product-variants', productVariantRouter);
 v1Router.use('/cart', cartRouter);
 v1Router.use('/wishlist', wishlistRouter);
+v1Router.use('/address', addressRouter);
 
 export default v1Router;
