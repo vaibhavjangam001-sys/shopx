@@ -104,6 +104,7 @@ const MESSAGES = Object.freeze({
     FAILED_TO_UNSET: ' Failed to unset addresses.',
     FAILED_TO_SET: 'Failed to set address as default.',
     SET_SUCCESS: 'Address set ad default successfully',
+    INVALID_FIELD__FOR_UPDATE: 'Invalid fields provided for update.',
   },
 
   SERVER: {

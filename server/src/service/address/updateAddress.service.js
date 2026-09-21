@@ -15,10 +15,38 @@ const updateAddressService = async (userId, addressId, updateData) => {
     );
   }
 
+  const allowedFields = [
+    'fullName',
+    'phone',
+    'alternativePhone',
+    'addressLine1',
+    'addressLine2',
+    'city',
+    'state',
+    'postalCode',
+    'country',
+    'addressType',
+  ];
+
+  const setDefaultData = {};
+
+  for (const field of allowedFields) {
+    if (updateData[field] !== undefined) {
+      setDefaultData[field] = updateData[field];
+    }
+  }
+
+  if (Object.keys(setDefaultData).length === 0) {
+    throw new ApiError(
+      HTTP_STATUS.BAD_REQUEST,
+      MESSAGES.ADDRESS.INVALID_FIELD__FOR_UPDATE
+    );
+  }
+
   const updatedAddress = await updateAddressRepository(
     userId,
     addressId,
-    updateData
+    setDefaultData
   );
 
   if (!updatedAddress) {

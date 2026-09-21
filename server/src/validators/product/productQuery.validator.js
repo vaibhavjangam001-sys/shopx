@@ -64,7 +64,7 @@ const productQueryValidator = [
       });
 
       if (!areValid) {
-        throw new Error('fields contains an invalid fields');
+        throw new Error('fields contains an invalid field.');
       }
 
       return true;

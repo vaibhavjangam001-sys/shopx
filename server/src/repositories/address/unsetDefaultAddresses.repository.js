@@ -1,6 +1,6 @@
 import { Address } from '../../models/index.js';
 
-const unsetDefaultAddressesRepository = async (userId) => {
+const unsetDefaultAddressesRepository = async (userId, session) => {
   return await Address.updateMany(
     {
       user: userId,
@@ -10,6 +10,9 @@ const unsetDefaultAddressesRepository = async (userId) => {
       $set: {
         isDefault: false,
       },
+    },
+    {
+      session,
     }
   );
 };

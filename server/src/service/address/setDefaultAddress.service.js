@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { ApiError } from '../../utils/index.js';
 import {
   getAddressByIdRepository,
@@ -16,21 +17,32 @@ const setDefaultAddressService = async (userId, addressId) => {
     );
   }
 
-  await unsetDefaultAddressesRepository(userId);
+  const session = await mongoose.startSession();
 
-  const setDefaultAddress = await setDefaultAddressRepository(
-    userId,
-    addressId
-  );
+  try {
+    let updateAddress;
 
-  if (!setDefaultAddress) {
-    throw new ApiError(
-      HTTP_STATUS.INTERNAL_SERVER_ERROR,
-      MESSAGES.ADDRESS.FAILED_TO_SET
-    );
+    await session.withTransaction(async () => {
+      await unsetDefaultAddressesRepository(userId, session);
+
+      updateAddress = await setDefaultAddressRepository(
+        userId,
+        addressId,
+        session
+      );
+
+      if (!updateAddress) {
+        throw new ApiError(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          MESSAGES.ADDRESS.FAILED_TO_SET
+        );
+      }
+    });
+
+    return updateAddress;
+  } finally {
+    await session.endSession();
   }
-
-  return setDefaultAddress;
 };
 
 export default setDefaultAddressService;

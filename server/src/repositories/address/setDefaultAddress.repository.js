@@ -1,6 +1,6 @@
 import { Address } from '../../models/index.js';
 
-const setDefaultAddressRepository = async (userId, addressId) => {
+const setDefaultAddressRepository = async (userId, addressId, session) => {
   return await Address.findOneAndUpdate(
     {
       _id: addressId,
@@ -14,6 +14,7 @@ const setDefaultAddressRepository = async (userId, addressId) => {
     {
       returnDocument: 'after',
       runValidators: true,
+      session,
     }
   );
 };

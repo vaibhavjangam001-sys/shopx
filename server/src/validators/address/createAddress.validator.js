@@ -81,11 +81,6 @@ const createAddressValidator = [
     .optional()
     .isIn(['HOME', 'WORK', 'OTHER'])
     .withMessage('Address type must be HOME, WORK, or OTHER'),
-
-  body('isDefault')
-    .optional()
-    .isBoolean()
-    .withMessage('isDefault must be a boolean'),
 ];
 
 export default createAddressValidator;

@@ -96,10 +96,32 @@ const updateAddressValidator = [
     .isIn(['HOME', 'WORK', 'OTHER'])
     .withMessage('Address type must be HOME, WORK, or OTHER.'),
 
-  body('isDefault')
-    .optional()
-    .isBoolean()
-    .withMessage('isDefault must be a boolean.'),
+  body().custom((body) => {
+    const allowedFields = [
+      'fullName',
+      'phone',
+      'alternativePhone',
+      'addressLine1',
+      'addressLine2',
+      'city',
+      'state',
+      'postalCode',
+      'country',
+      'addressType',
+    ];
+
+    const receivedFields = Object.keys(body);
+
+    const invalidField = receivedFields.find(
+      (field) => !allowedFields.includes(field)
+    );
+
+    if (invalidField) {
+      throw new Error(`Invalid field: ${invalidField}`);
+    }
+
+    return true;
+  }),
 ];
 
 export default updateAddressValidator;
