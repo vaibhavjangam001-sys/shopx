@@ -107,6 +107,10 @@ const MESSAGES = Object.freeze({
     INVALID_FIELD__FOR_UPDATE: 'Invalid fields provided for update.',
   },
 
+  ORDER: {
+    CREATED: 'Order created successfully.',
+  },
+
   SERVER: {
     INTERNAL_ERROR: 'Internal server error.',
   },
