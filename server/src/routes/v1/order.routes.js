@@ -6,6 +6,11 @@ import {
   getOrdersController,
   updateOrderController,
 } from '../../controllers/order/index.js';
+import { createOrderValidator } from '../../validators/order/index.js';
+import {
+  authenticationMiddleware,
+  validationMiddleware,
+} from '../../middlewares/index.js';
 
 const orderRouter = Router();
 
@@ -16,7 +21,13 @@ orderRouter.get('/:orderId', getOrderByIdController);
 orderRouter.get('/', getOrdersController);
 
 // create new order :-
-orderRouter.post('/', createOrderController);
+orderRouter.post(
+  '/',
+  authenticationMiddleware,
+  createOrderValidator,
+  validationMiddleware,
+  createOrderController
+);
 
 // update order :-
 orderRouter.patch('/:orderId', updateOrderController);

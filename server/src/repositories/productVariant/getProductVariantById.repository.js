@@ -4,6 +4,9 @@ const getProductVariantByIdRepository = async (productVariantId) => {
   return await ProductVariant.findOne({
     _id: productVariantId,
     isDeleted: false,
+  }).populate({
+    path: 'product',
+    select: 'productName',
   });
 };
 

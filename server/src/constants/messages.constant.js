@@ -57,6 +57,7 @@ const MESSAGES = Object.freeze({
     ITEM_UPDATED: 'Cart item updated successfully.',
     CLEARED: 'Cart cleared successfully.',
     SUMMARY_FETCHED: 'Cart summary fetched successfully.',
+    EMPTY_CART: 'Cannot create order with empty cart',
   },
 
   WISH_LIST: {
@@ -105,6 +106,7 @@ const MESSAGES = Object.freeze({
     FAILED_TO_SET: 'Failed to set address as default.',
     SET_SUCCESS: 'Address set ad default successfully',
     INVALID_FIELD__FOR_UPDATE: 'Invalid fields provided for update.',
+    ADDRESS_REQUIRED: 'Shipping address is required.',
   },
 
   ORDER: {
@@ -116,6 +118,7 @@ const MESSAGES = Object.freeze({
     FETCHED_ALL: 'Orders fetched successfully.',
     FETCHED: 'Order fetched successfully.',
     UPDATED: 'Order updated successfully.',
+    PRODUCT_NOT_AVILABLE: 'One or more products are no longer available.',
   },
 
   SERVER: {
