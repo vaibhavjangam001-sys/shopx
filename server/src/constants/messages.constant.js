@@ -109,6 +109,13 @@ const MESSAGES = Object.freeze({
 
   ORDER: {
     CREATED: 'Order created successfully.',
+    DELETE_FAILED: 'Failed to delete Order.',
+    NOT_FOUND: 'Order not found.',
+    UPDATE_FAILED: 'Failed to update Order.',
+    DELETED: 'Order deleted successfully.',
+    FETCHED_ALL: 'Orders fetched successfully.',
+    FETCHED: 'Order fetched successfully.',
+    UPDATED: 'Order updated successfully.',
   },
 
   SERVER: {
