@@ -1,7 +1,10 @@
 import { ApiError } from '../../utils/index.js';
 import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 import { getCartByUserIdRepository } from '../../repositories/cart/index.js';
-import { getProductVariantByIdRepository } from '../../repositories/productVariant/index.js';
+import {
+  decreaseProductVariantStockRepository,
+  getProductVariantByIdRepository,
+} from '../../repositories/productVariant/index.js';
 import { getAddressByIdRepository } from '../../repositories/address/index.js';
 import { createOrderRepository } from '../../repositories/order/index.js';
 import crypto from 'crypto';
@@ -47,6 +50,18 @@ const createOrderService = async (userId, orderData) => {
     }
 
     if (variant.stock < cartItem.quantity) {
+      throw new ApiError(
+        HTTP_STATUS.BAD_REQUEST,
+        `Insufficient stock for ${variant.sku}.`
+      );
+    }
+
+    const updatedVariant = await decreaseProductVariantStockRepository(
+      variant._id,
+      cartItem.quantity
+    );
+
+    if (!updatedVariant) {
       throw new ApiError(
         HTTP_STATUS.BAD_REQUEST,
         `Insufficient stock for ${variant.sku}.`
