@@ -1,7 +1,7 @@
 import { getCartByIdRepository } from './index.js';
 
-const clearCartRepository = async (cartId) => {
-  const cart = await getCartByIdRepository(cartId);
+const clearCartRepository = async (cartId, session) => {
+  const cart = await getCartByIdRepository(cartId, session);
 
   if (!cart) {
     return null;
@@ -9,7 +9,7 @@ const clearCartRepository = async (cartId) => {
 
   cart.items = [];
 
-  return await cart.save();
+  return await cart.save({ session });
 };
 
 export default clearCartRepository;

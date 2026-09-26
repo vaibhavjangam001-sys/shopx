@@ -2,9 +2,10 @@ import { ProductVariant } from '../../models/index.js';
 
 const decreaseProductVariantStockRepository = async (
   productVariantId,
-  quantity
+  quantity,
+  session
 ) => {
-  return await ProductVariant.findByIdAndUpdate(
+  return await ProductVariant.findOneAndUpdate(
     {
       _id: productVariantId,
       isDeleted: false,
@@ -16,6 +17,7 @@ const decreaseProductVariantStockRepository = async (
     {
       returnDocument: 'after',
       runValidators: true,
+      session,
     }
   );
 };
