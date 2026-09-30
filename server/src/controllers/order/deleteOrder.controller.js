@@ -4,8 +4,9 @@ import { deleteOrderService } from '../../service/order/index.js';
 
 const deleteOrderController = AsyncHandler(async (req, res) => {
   const orderId = req.params.orderId;
+  const userId = req.user.id;
 
-  const deletedOrder = await deleteOrderService(orderId);
+  const deletedOrder = await deleteOrderService(userId, orderId);
 
   res
     .status(HTTP_STATUS.OK)

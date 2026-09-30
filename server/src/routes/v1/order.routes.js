@@ -9,6 +9,8 @@ import {
 import { createOrderValidator } from '../../validators/order/index.js';
 import {
   authenticationMiddleware,
+  authorizeMiddleware,
+  authorizeOwnerAndAdminMiddleware,
   validationMiddleware,
 } from '../../middlewares/index.js';
 
@@ -33,6 +35,11 @@ orderRouter.post(
 orderRouter.patch('/:orderId', updateOrderController);
 
 // delete order :-
-orderRouter.delete('/:orderId', deleteOrderController);
+orderRouter.delete(
+  '/:orderId',
+  authenticationMiddleware,
+  authorizeMiddleware('user', 'admin'),
+  deleteOrderController
+);
 
 export default orderRouter;

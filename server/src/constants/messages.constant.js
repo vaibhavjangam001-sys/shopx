@@ -119,6 +119,7 @@ const MESSAGES = Object.freeze({
     FETCHED: 'Order fetched successfully.',
     UPDATED: 'Order updated successfully.',
     PRODUCT_NOT_AVILABLE: 'One or more products are no longer available.',
+    INVALID_DELETE_REQUEST: 'Order cannot be deleted in its current status.',
   },
 
   SERVER: {

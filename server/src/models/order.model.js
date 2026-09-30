@@ -158,6 +158,23 @@ const orderSchema = new mongoose.Schema(
       required: true,
       min: [0, 'Total amount cannot be negative.'],
     },
+
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
+
+    status: {
+      type: String,
+      default: 'PENDING',
+      enum: ['PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED'],
+    },
   },
   {
     timestamps: true,
