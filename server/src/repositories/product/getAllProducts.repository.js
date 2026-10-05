@@ -1,6 +1,6 @@
 import { Product } from '../../models/index.js';
 import { ApiFeatures } from '../../utils/index.js';
-import { API_FEATURERS } from '../../constants/index.js';
+import { API_FEATURES } from '../../constants/index.js';
 
 const getAllProductsRepository = async (queryParams) => {
   const query = Product.find();
@@ -46,10 +46,10 @@ const getAllProductsRepository = async (queryParams) => {
   const features = new ApiFeatures(query, queryParams);
 
   features
-    .search(API_FEATURERS.PRODUCT_SEARCH_FIELDS)
+    .search(API_FEATURES.PRODUCT_SEARCH_FIELDS)
     .filter(filterQuery)
-    .sort(API_FEATURERS.PRODUCT_SORT_FIELDS)
-    .fields(API_FEATURERS.PRODUCT_FIELDS)
+    .sort(API_FEATURES.PRODUCT_SORT_FIELDS)
+    .fields(API_FEATURES.PRODUCT_FIELDS)
     .paginate();
 
   const products = await features.query.lean();

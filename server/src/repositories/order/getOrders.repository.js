@@ -2,13 +2,13 @@ import { Order } from '../../models/index.js';
 import { ApiFeatures } from '../../utils/index.js';
 import { API_FEATURES } from '../../constants/index.js';
 
-const getOrdersRepository = async (userId, queryParams) => {
+const getOrdersRepository = async (userId, queryParams = {}) => {
   const filter = {
     user: userId,
     isDeleted: false,
   };
 
-  const status = queryParams.status?.trim().toUpperCase();
+  const status = queryParams?.status?.trim().toUpperCase();
 
   if (status && API_FEATURES.ALLOWED_ORDER_STATUSES.includes(status)) {
     filter.status = status;

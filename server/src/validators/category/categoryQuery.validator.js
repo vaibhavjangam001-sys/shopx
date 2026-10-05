@@ -1,5 +1,5 @@
 import { query } from 'express-validator';
-import { API_FEATURERS } from '../../constants/index.js';
+import { API_FEATURES } from '../../constants/index.js';
 
 const categoryQueryValidator = [
   query('page')
@@ -26,7 +26,7 @@ const categoryQueryValidator = [
       const areValid = sortFields.every((field) => {
         const fieldName = field.startsWith('-') ? field.slice(1) : field;
 
-        return API_FEATURERS.CATEGORY_SORT_FIELDS.includes(fieldName);
+        return API_FEATURES.CATEGORY_SORT_FIELDS.includes(fieldName);
       });
 
       if (!areValid) {
@@ -42,7 +42,7 @@ const categoryQueryValidator = [
       const fieldArray = value.split(',');
 
       const areValidField = fieldArray.every((field) => {
-        return API_FEATURERS.CATEGORY_FIELDS.includes(field);
+        return API_FEATURES.CATEGORY_FIELDS.includes(field);
       });
 
       if (!areValidField) {

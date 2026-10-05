@@ -1,5 +1,5 @@
 import { query } from 'express-validator';
-import { API_FEATURERS } from '../../constants/index.js';
+import { API_FEATURES } from '../../constants/index.js';
 
 const productQueryValidator = [
   query('category').optional().isMongoId().withMessage('Invalid category Id'),
@@ -60,7 +60,7 @@ const productQueryValidator = [
 
       const areValid = sortFields.every((field) => {
         const fieldName = field.startsWith('-') ? field.slice(1) : field;
-        return API_FEATURERS.PRODUCT_SORT_FIELDS.includes(fieldName);
+        return API_FEATURES.PRODUCT_SORT_FIELDS.includes(fieldName);
       });
 
       if (!areValid) {
@@ -76,7 +76,7 @@ const productQueryValidator = [
       const fieldArray = value.split(',');
 
       const areValid = fieldArray.every((field) => {
-        return API_FEATURERS.PRODUCT_FIELDS.includes(field);
+        return API_FEATURES.PRODUCT_FIELDS.includes(field);
       });
 
       if (!areValid) {

@@ -6,3 +6,4 @@ export { default as updateProductVariantRepository } from './updateProductVarian
 export { default as deleteProductVariantRepository } from './deleteProductVariant.repository.js';
 export { default as increaseProductVariantStockRepository } from './increaseProductVariantStock.repository.js';
 export { default as decreaseProductVariantStockRepository } from './decreaseProductVariantStock.repository.js';
+export { default as restoreProductVariantStockRepository } from './restoreProductVariantStock.repository.js';

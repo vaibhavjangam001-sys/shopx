@@ -21,15 +21,6 @@ import {
 
 const orderRouter = Router();
 
-// get order by id :-
-orderRouter.get(
-  '/:orderId',
-  authenticationMiddleware,
-  getOrderByIdValidator,
-  validationMiddleware,
-  getOrderByIdController
-);
-
 // get orders :-
 orderRouter.get(
   '/',
@@ -37,6 +28,15 @@ orderRouter.get(
   orderQueryValidator,
   validationMiddleware,
   getOrdersController
+);
+
+// get order by id :-
+orderRouter.get(
+  '/:orderId',
+  authenticationMiddleware,
+  getOrderByIdValidator,
+  validationMiddleware,
+  getOrderByIdController
 );
 
 // create new order :-

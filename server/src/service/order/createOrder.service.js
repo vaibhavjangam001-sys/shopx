@@ -42,7 +42,6 @@ const createOrderService = async (userId, orderData) => {
       const orderItems = [];
 
       let subTotal = 0;
-      let totalQuantity = 0;
 
       for (const cartItem of cart.items) {
         const variant = await getProductVariantByIdRepository(
