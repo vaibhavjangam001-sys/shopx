@@ -51,6 +51,9 @@ const API_FEATURES = Object.freeze({
     'createdAt',
     'updatedAt',
   ]),
+
+  ALLOWED_ORDER_STATUSES: ['PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED'],
+  ORDER_SORT_FIELDS: ['createdAt', 'updatedAt', 'totalAmount', 'status'],
 });
 
 export default API_FEATURES;

@@ -2,9 +2,7 @@ import { Order } from '../../models/index.js';
 
 const updateOrderRepository = async (orderId, updateOrderData) => {
   return await Order.findByIdAndUpdate(
-    {
-      _id: orderId,
-    },
+    orderId,
     {
       $set: updateOrderData,
     },

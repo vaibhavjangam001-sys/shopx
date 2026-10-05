@@ -6,21 +6,38 @@ import {
   getOrdersController,
   updateOrderController,
 } from '../../controllers/order/index.js';
-import { createOrderValidator } from '../../validators/order/index.js';
+import {
+  createOrderValidator,
+  deleteOrderValidator,
+  getOrderByIdValidator,
+  updateOrderValidator,
+  orderQueryValidator,
+} from '../../validators/order/index.js';
 import {
   authenticationMiddleware,
   authorizeMiddleware,
-  authorizeOwnerAndAdminMiddleware,
   validationMiddleware,
 } from '../../middlewares/index.js';
 
 const orderRouter = Router();
 
 // get order by id :-
-orderRouter.get('/:orderId', getOrderByIdController);
+orderRouter.get(
+  '/:orderId',
+  authenticationMiddleware,
+  getOrderByIdValidator,
+  validationMiddleware,
+  getOrderByIdController
+);
 
 // get orders :-
-orderRouter.get('/', getOrdersController);
+orderRouter.get(
+  '/',
+  authenticationMiddleware,
+  orderQueryValidator,
+  validationMiddleware,
+  getOrdersController
+);
 
 // create new order :-
 orderRouter.post(
@@ -32,13 +49,21 @@ orderRouter.post(
 );
 
 // update order :-
-orderRouter.patch('/:orderId', updateOrderController);
+orderRouter.patch(
+  '/:orderId',
+  authenticationMiddleware,
+  updateOrderValidator,
+  validationMiddleware,
+  updateOrderController
+);
 
 // delete order :-
 orderRouter.delete(
   '/:orderId',
   authenticationMiddleware,
   authorizeMiddleware('user', 'admin'),
+  deleteOrderValidator,
+  validationMiddleware,
   deleteOrderController
 );
 

@@ -4,8 +4,9 @@ import { getOrderByIdService } from '../../service/order/index.js';
 
 const getOrderByIdController = AsyncHandler(async (req, res) => {
   const orderId = req.params.orderId;
+  const userId = req.user.id;
 
-  const order = await getOrderByIdService(orderId);
+  const order = await getOrderByIdService(userId, orderId);
 
   res
     .status(HTTP_STATUS.OK)
