@@ -9,6 +9,7 @@ import cartRouter from './cart.routes.js';
 import wishlistRouter from './wishlist.routes.js';
 import addressRouter from './address.routes.js';
 import orderRouter from './order.routes.js';
+import couponRouter from './coupon.routes.js';
 
 const v1Router = Router();
 
@@ -21,5 +22,6 @@ v1Router.use('/cart', cartRouter);
 v1Router.use('/wishlist', wishlistRouter);
 v1Router.use('/address', addressRouter);
 v1Router.use('/orders', orderRouter);
+v1Router.use('/coupons', couponRouter);
 
 export default v1Router;

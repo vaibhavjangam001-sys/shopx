@@ -7,3 +7,4 @@ export { default as Cart } from './cart.model.js';
 export { default as Wishlist } from './wishlist.model.js';
 export { default as Address } from './address.model.js';
 export { default as Order } from './order.model.js';
+export { default as Coupon } from './coupon.model.js';

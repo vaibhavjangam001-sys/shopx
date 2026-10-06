@@ -5,6 +5,7 @@ const REGEX = Object.freeze({
   EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   PHONE_REGEX: /^[6-9]\d{9}$/,
   POSTAL_CODE: /^\d{6}$/,
+  COUPON_REGEX: /^[A-Za-z0-9_-]+$/,
 });
 
 export default REGEX;

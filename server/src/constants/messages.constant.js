@@ -13,6 +13,19 @@ const MESSAGES = Object.freeze({
     HAS_PRODUCTS: 'Cannot delete category because it has associated products.',
   },
 
+  COUPON: {
+    CREATED: 'Coupon created successfully.',
+    UPDATED: 'Coupon updated successfully.',
+    DELETED: 'Coupon deleted successfully.',
+    FETCHED: 'Coupon fetched successfully.',
+    FETCHED_ALL: 'Coupons fetched successfully.',
+    NOT_FOUND: 'Coupon not found.',
+    INVALID_DISCOUNT_VALUE: 'Invalid discount value.',
+    INVALID_DATE_RANGE: 'Coupon expiry date must be after start date.',
+    INVALID_MAX_DISCOUNT:
+      'Maximum discount is only valid for percentage coupons.',
+  },
+
   PRODUCT: {
     CREATED: 'Product added successfully.',
     UPDATED: 'Product details updated successfully.',
