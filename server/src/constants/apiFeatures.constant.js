@@ -55,6 +55,17 @@ const API_FEATURES = Object.freeze({
   ALLOWED_ORDER_STATUSES: ['PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED'],
   ORDER_SORT_FIELDS: ['createdAt', 'updatedAt', 'totalAmount', 'status'],
   COUPON_TYPES: ['PERCENTAGE', 'FIXED'],
+  COUPON_ALLOWED_FIELDS: [
+    'discountType',
+    'discountValue',
+    'minOrderAmount',
+    'maxDiscount',
+    'startDate',
+    'expiryDate',
+    'usageLimit',
+    'perUserLimit',
+    'isActive',
+  ],
 });
 
 export default API_FEATURES;

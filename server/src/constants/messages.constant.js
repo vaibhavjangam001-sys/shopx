@@ -24,6 +24,8 @@ const MESSAGES = Object.freeze({
     INVALID_DATE_RANGE: 'Coupon expiry date must be after start date.',
     INVALID_MAX_DISCOUNT:
       'Maximum discount is only valid for percentage coupons.',
+    UPDATE_FAILED: 'Failed to update coupon.',
+    DELETE_FAILED: 'Failed to delete coupon.',
   },
 
   PRODUCT: {
