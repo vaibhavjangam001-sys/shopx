@@ -14,6 +14,8 @@ const requiredEnv = [
   'CLOUDINARY_API_SECRET',
   'BCRYPT_SALT_ROUNDS',
   'JWT_ACCESS_SECRET',
+  'RAZORPAY_KEY_ID',
+  'RAZORPAY_KEY_SECRET',
 ];
 
 for (const key of requiredEnv) {
@@ -53,6 +55,8 @@ const env = Object.freeze({
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
   BCRYPT_SALT_ROUNDS: BCRYPT_SALT_ROUNDS,
   JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
+  RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
+  RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
 });
 
 export default env;
