@@ -135,6 +135,13 @@ const MESSAGES = Object.freeze({
     PRODUCT_NOT_AVAILABLE: 'One or more products are no longer available.',
     INVALID_DELETE_REQUEST: 'Order cannot be deleted in its current status.',
     INVALID_STATUS: 'Invalid order status transition.',
+    INVALID_ORDER_AMOUNT: 'Invalid order amount.',
+  },
+
+  PAYMENT: {
+    CREATED: 'Razorpay order created successfully.',
+    PAYMENT_RECORD_ALREADY_EXISTS:
+      'A payment record already exists for this order.',
   },
 
   SERVER: {
