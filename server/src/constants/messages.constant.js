@@ -140,6 +140,13 @@ const MESSAGES = Object.freeze({
 
   PAYMENT: {
     CREATED: 'Razorpay order created successfully.',
+    NOT_FOUND: 'Payment not found.',
+    ALREADY_COMPLETED: 'Payment has already been completed.',
+    INVALID_SIGNATURE: 'Invalid Razorpay payment signature.',
+    VERIFIED: 'Razorpay payment signature verified successfully.',
+    INVALID_PAYMENT_DETAILS: 'Razorpay payment details do not match the order.',
+    NOT_CAPTURED: 'Razorpay payment has not been captured.',
+    UPDATE_FAILED: 'Failed to update payment status.',
     PAYMENT_RECORD_ALREADY_EXISTS:
       'A payment record already exists for this order.',
   },

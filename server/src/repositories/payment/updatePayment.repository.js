@@ -1,19 +1,28 @@
 import { Payment } from '../../models/index.js';
 
-const updatePaymentRepository = async (
+const updatePaymentRepository = async ({
   paymentId,
-  updateData,
-  session = null
-) => {
-  return await Payment.findByIdAndUpdate(
-    paymentId,
+  providerPaymentId,
+  session = {},
+}) => {
+  return Payment.findOneAndUpdate(
     {
-      $set: updateData,
+      _id: paymentId,
+      status: { $in: ['CREATED', 'PENDING'] },
+      providerPaymentId: null,
     },
     {
-      returnDocument: 'after',
+      $set: {
+        providerPaymentId,
+        status: 'SUCCESS',
+        paidAt: new Date(),
+        failureReason: null,
+      },
+    },
+    {
+      new: true,
       runValidators: true,
-      session,
+      ...(session && { session }),
     }
   );
 };

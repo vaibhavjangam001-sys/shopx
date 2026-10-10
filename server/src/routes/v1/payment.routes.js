@@ -5,10 +5,28 @@ import {
   authorizeMiddleware,
   validationMiddleware,
 } from '../../middlewares/index.js';
-import { createRazorpayOrderValidator } from '../../validators/payment/index.js';
-import { createRazorpayOrderController } from '../../controllers/payment/index.js';
+import {
+  createRazorpayOrderValidator,
+  verifyRazorpayPaymentValidator,
+} from '../../validators/payment/index.js';
+import {
+  createRazorpayOrderController,
+  verifyRazorpayPaymentController,
+} from '../../controllers/payment/index.js';
 
 const paymentRouter = Router();
+
+//verify razorpay signature
+paymentRouter.post(
+  '/verify',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN, ROLES.USER),
+  verifyRazorpayPaymentValidator,
+  validationMiddleware,
+  verifyRazorpayPaymentController
+);
+
+export default paymentRouter;
 
 // create razorpay order
 paymentRouter.post(
@@ -19,5 +37,3 @@ paymentRouter.post(
   validationMiddleware,
   createRazorpayOrderController
 );
-
-export default paymentRouter;

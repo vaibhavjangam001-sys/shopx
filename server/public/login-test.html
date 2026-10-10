@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopX Login Test</title>
+</head>
+
+<body>
+    <h1>ShopX Browser Login</h1>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" required />
+
+    <br /><br />
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" required />
+
+    <br /><br />
+
+    <button id="loginButton">Login</button>
+    <pre id="result"></pre>
+
+    <script>
+        const loginButton = document.getElementById('loginButton');
+        const result = document.getElementById('result');
+
+        loginButton.addEventListener('click', async () => {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                result.textContent = 'Email आणि password आवश्यक आहेत.';
+                return;
+            }
+
+            loginButton.disabled = true;
+            result.textContent = 'Logging in...';
+
+            try {
+                const response = await fetch(
+                    'http://localhost:8080/api/v1/auth/login',
+                    {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email, password })
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || `Login failed (${response.status})`);
+                }
+
+                result.textContent =
+                    'Login successful. Browser received the login response.\n' +
+                    'आता payment-test.html उघडून पुन्हा प्रयत्न कर.';
+            } catch (error) {
+                result.textContent = 'Login error: ' + error.message;
+            } finally {
+                loginButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

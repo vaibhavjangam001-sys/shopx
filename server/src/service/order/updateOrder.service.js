@@ -40,10 +40,7 @@ const updateOrderService = async (userId, orderId, updateData, userRole) => {
           MESSAGES.ORDER.INVALID_STATUS
         );
       }
-    }
-
-    // SHIPPED → DELIVERED
-    else if (currentStatus === 'SHIPPED') {
+    } else if (currentStatus === 'SHIPPED') {
       if (status !== 'DELIVERED' || !isAdmin) {
         throw new ApiError(HTTP_STATUS.FORBIDDEN, MESSAGES.AUTH.FORBIDDEN);
       }

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopX Razorpay Test Payment</title>
+</head>
+
+<body>
+    <h1>ShopX — Razorpay Test Payment</h1>
+
+    <p>
+        आधी browser मधून ShopX login केलेले असणे आवश्यक आहे.
+    </p>
+
+    <label for="orderId">ShopX Order ID:</label>
+    <input type="text" id="orderId" placeholder="MongoDB Order ID" autocomplete="off" />
+
+    <br /><br />
+
+    <button id="payButton">Pay with Razorpay Test Mode</button>
+
+    <pre id="result"></pre>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+        const payButton = document.getElementById('payButton');
+        const result = document.getElementById('result');
+
+        const API_BASE_URL = 'http://localhost:8080/api/v1';
+        const RAZORPAY_KEY_ID = 'rzp_test_TlTNo1xfaNE8Jj';
+
+        payButton.addEventListener('click', async () => {
+            const orderId = document.getElementById('orderId').value.trim();
+
+            if (!orderId) {
+                result.textContent = 'ShopX Order ID आवश्यक आहे.';
+                return;
+            }
+
+            if (RAZORPAY_KEY_ID === 'YOUR_RAZORPAY_TEST_KEY_ID') {
+                result.textContent =
+                    'Razorpay Dashboard मधील Test Mode Key ID टाका.';
+                return;
+            }
+
+            payButton.disabled = true;
+            result.textContent = 'Creating Razorpay order...';
+
+            try {
+                // 1. Create Razorpay order.
+                const response = await fetch(
+                    `${API_BASE_URL}/payments/${encodeURIComponent(orderId)}`,
+                    {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                const body = await response.json();
+
+                if (!response.ok || !body.success) {
+                    throw new Error(
+                        body.message || `Order creation failed (${response.status}).`
+                    );
+                }
+
+                const paymentData = body.data;
+
+                // 2. Open Razorpay Checkout.
+                const checkout = new Razorpay({
+                    key: RAZORPAY_KEY_ID,
+                    amount: paymentData.amount,
+                    currency: paymentData.currency,
+                    name: 'ShopX',
+                    description: 'ShopX test payment',
+                    order_id: paymentData.razorpayOrderId,
+
+                    handler: async function (paymentResponse) {
+                        result.textContent = 'Verifying payment...';
+
+                        try {
+                            // 3. Verify payment on ShopX backend.
+                            const verifyResponse = await fetch(
+                                `${API_BASE_URL}/payments/verify`,
+                                {
+                                    method: 'POST',
+                                    credentials: 'include',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(paymentResponse)
+                                }
+                            );
+
+                            const verifyBody = await verifyResponse.json();
+
+                            if (!verifyResponse.ok || !verifyBody.success) {
+                                throw new Error(
+                                    verifyBody.message ||
+                                    `Verification failed (${verifyResponse.status}).`
+                                );
+                            }
+
+                            result.textContent =
+                                'Payment verification response:\n' +
+                                JSON.stringify(verifyBody, null, 2);
+                        } catch (error) {
+                            result.textContent =
+                                'Verification error: ' + error.message;
+                        }
+                    },
+
+                    modal: {
+                        ondismiss: function () {
+                            result.textContent =
+                                'Checkout बंद केले. Payment status backend वर तपासा.';
+                        }
+                    },
+
+                    theme: {
+                        color: '#3399cc'
+                    }
+                });
+
+                checkout.on('payment.failed', function (event) {
+                    result.textContent =
+                        'Payment failed:\n' +
+                        JSON.stringify(event.error, null, 2);
+                });
+
+                checkout.open();
+            } catch (error) {
+                result.textContent = 'Error: ' + error.message;
+            } finally {
+                payButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
