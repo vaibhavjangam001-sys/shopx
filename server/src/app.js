@@ -2,11 +2,23 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { errorMiddleware } from './middlewares/index.js';
+import {
+  errorMiddleware,
+  razorpayWebhookSignatureMiddleware,
+} from './middlewares/index.js';
 import routes from './routes/index.js';
+import { handleRazorpayWebhookController } from './controllers/payment/index.js';
 
 // Create express app :-
 const app = express();
+
+// razorpay webhook route
+app.post(
+  '/api/v1/payments/webhook',
+  express.raw({ type: 'application/json' }),
+  razorpayWebhookSignatureMiddleware,
+  handleRazorpayWebhookController
+);
 
 // Global middlewares :-
 app.use(express.json());

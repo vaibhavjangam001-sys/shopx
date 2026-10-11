@@ -140,6 +140,7 @@ const MESSAGES = Object.freeze({
 
   PAYMENT: {
     CREATED: 'Razorpay order created successfully.',
+    SUCCESS: 'Payment webhook processed successfully',
     NOT_FOUND: 'Payment not found.',
     ALREADY_COMPLETED: 'Payment has already been completed.',
     INVALID_SIGNATURE: 'Invalid Razorpay payment signature.',
@@ -149,6 +150,10 @@ const MESSAGES = Object.freeze({
     UPDATE_FAILED: 'Failed to update payment status.',
     PAYMENT_RECORD_ALREADY_EXISTS:
       'A payment record already exists for this order.',
+  },
+
+  RAZORPAY: {
+    INVALID_WEBHOOK: 'Invalid webhook signature',
   },
 
   SERVER: {

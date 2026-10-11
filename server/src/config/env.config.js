@@ -16,6 +16,7 @@ const requiredEnv = [
   'JWT_ACCESS_SECRET',
   'RAZORPAY_KEY_ID',
   'RAZORPAY_KEY_SECRET',
+  'RAZORPAY_WEBHOOK_SECRET',
 ];
 
 for (const key of requiredEnv) {
@@ -42,8 +43,8 @@ if (!allowedEnvironments.includes(NODE_ENV)) {
 
 const BCRYPT_SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS);
 
-if (!Number.isInteger(BCRYPT_SALT_ROUNDS)) {
-  throw new Error('BCRYPT_SALT_ROUNDS must be a valid number.');
+if (!Number.isInteger(BCRYPT_SALT_ROUNDS) || BCRYPT_SALT_ROUNDS < 1) {
+  throw new Error('BCRYPT_SALT_ROUNDS must be a valid positive number.');
 }
 
 const env = Object.freeze({
@@ -57,6 +58,7 @@ const env = Object.freeze({
   JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
   RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
   RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
+  RAZORPAY_WEBHOOK_SECRET: process.env.RAZORPAY_WEBHOOK_SECRET,
 });
 
 export default env;
