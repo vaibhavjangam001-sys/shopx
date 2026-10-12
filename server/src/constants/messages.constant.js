@@ -140,6 +140,7 @@ const MESSAGES = Object.freeze({
 
   PAYMENT: {
     CREATED: 'Razorpay order created successfully.',
+    FETCHED: 'Payment fetched successfully.',
     SUCCESS: 'Payment webhook processed successfully',
     NOT_FOUND: 'Payment not found.',
     ALREADY_COMPLETED: 'Payment has already been completed.',

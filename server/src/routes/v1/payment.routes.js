@@ -7,14 +7,26 @@ import {
 } from '../../middlewares/index.js';
 import {
   createRazorpayOrderValidator,
+  getPaymentByIdValidator,
   verifyRazorpayPaymentValidator,
 } from '../../validators/payment/index.js';
 import {
   createRazorpayOrderController,
+  getPaymentByIdController,
   verifyRazorpayPaymentController,
 } from '../../controllers/payment/index.js';
 
 const paymentRouter = Router();
+
+// get payment by ID
+paymentRouter.get(
+  '/:paymentId',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN),
+  getPaymentByIdValidator,
+  validationMiddleware,
+  getPaymentByIdController
+);
 
 //verify razorpay signature
 paymentRouter.post(
