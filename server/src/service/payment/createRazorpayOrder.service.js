@@ -51,6 +51,14 @@ const createRazorpayOrderService = async (userId, orderId) => {
     status: 'CREATED',
   });
 
+  console.log('Saved Payment:', {
+    paymentId: payment._id.toString(),
+    providerOrderId: payment.providerOrderId,
+    status: payment.status,
+  });
+
+  console.log('Created Razorpay Order ID:', razorpayOrder.id);
+
   return {
     paymentId: payment._id,
     shopxOrderId: order._id,

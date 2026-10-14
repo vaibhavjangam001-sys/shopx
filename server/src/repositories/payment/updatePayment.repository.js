@@ -20,7 +20,7 @@ const updatePaymentRepository = async ({
       },
     },
     {
-      new: true,
+      returnDocument: 'after',
       runValidators: true,
       ...(session && { session }),
     }

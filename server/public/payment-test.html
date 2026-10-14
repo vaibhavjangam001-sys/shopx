@@ -1,21 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ShopX Razorpay Test Payment</title>
+    <title>ShopX Razorpay Webhook Test</title>
 </head>
 
 <body>
-    <h1>ShopX — Razorpay Test Payment</h1>
+    <h1>ShopX — Razorpay Webhook Test</h1>
 
     <p>
         आधी browser मधून ShopX login केलेले असणे आवश्यक आहे.
     </p>
 
+    <p>
+        हा test payment Checkout response दाखवेल.
+        Payment verification API आपोआप call होणार नाही.
+    </p>
+
     <label for="orderId">ShopX Order ID:</label>
-    <input type="text" id="orderId" placeholder="MongoDB Order ID" autocomplete="off" />
+    <input
+        type="text"
+        id="orderId"
+        placeholder="MongoDB Order ID"
+        autocomplete="off"
+    />
 
     <br /><br />
 
@@ -33,16 +44,11 @@
         const RAZORPAY_KEY_ID = 'rzp_test_TlTNo1xfaNE8Jj';
 
         payButton.addEventListener('click', async () => {
-            const orderId = document.getElementById('orderId').value.trim();
+            const orderId =
+                document.getElementById('orderId').value.trim();
 
             if (!orderId) {
                 result.textContent = 'ShopX Order ID आवश्यक आहे.';
-                return;
-            }
-
-            if (RAZORPAY_KEY_ID === 'YOUR_RAZORPAY_TEST_KEY_ID') {
-                result.textContent =
-                    'Razorpay Dashboard मधील Test Mode Key ID टाका.';
                 return;
             }
 
@@ -50,7 +56,7 @@
             result.textContent = 'Creating Razorpay order...';
 
             try {
-                // 1. Create Razorpay order.
+                // 1. Create Razorpay order through ShopX backend.
                 const response = await fetch(
                     `${API_BASE_URL}/payments/${encodeURIComponent(orderId)}`,
                     {
@@ -66,7 +72,8 @@
 
                 if (!response.ok || !body.success) {
                     throw new Error(
-                        body.message || `Order creation failed (${response.status}).`
+                        body.message ||
+                        `Order creation failed (${response.status}).`
                     );
                 }
 
@@ -78,48 +85,25 @@
                     amount: paymentData.amount,
                     currency: paymentData.currency,
                     name: 'ShopX',
-                    description: 'ShopX test payment',
+                    description: 'ShopX webhook test',
                     order_id: paymentData.razorpayOrderId,
 
-                    handler: async function (paymentResponse) {
-                        result.textContent = 'Verifying payment...';
-
-                        try {
-                            // 3. Verify payment on ShopX backend.
-                            const verifyResponse = await fetch(
-                                `${API_BASE_URL}/payments/verify`,
-                                {
-                                    method: 'POST',
-                                    credentials: 'include',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify(paymentResponse)
-                                }
-                            );
-
-                            const verifyBody = await verifyResponse.json();
-
-                            if (!verifyResponse.ok || !verifyBody.success) {
-                                throw new Error(
-                                    verifyBody.message ||
-                                    `Verification failed (${verifyResponse.status}).`
-                                );
-                            }
-
-                            result.textContent =
-                                'Payment verification response:\n' +
-                                JSON.stringify(verifyBody, null, 2);
-                        } catch (error) {
-                            result.textContent =
-                                'Verification error: ' + error.message;
-                        }
+                    // 3. Display Checkout response only.
+                    // Do not call /payments/verify here.
+                    handler: function (paymentResponse) {
+                        result.textContent =
+                            'Razorpay Checkout response received.\n\n' +
+                            'This does NOT prove that the webhook was processed.\n\n' +
+                            'Check Razorpay Dashboard webhook deliveries and ' +
+                            'verify Payment and Order in MongoDB.\n\n' +
+                            JSON.stringify(paymentResponse, null, 2);
                     },
 
                     modal: {
                         ondismiss: function () {
                             result.textContent =
-                                'Checkout बंद केले. Payment status backend वर तपासा.';
+                                'Checkout बंद केले. Payment status आणि ' +
+                                'webhook delivery स्वतंत्रपणे तपासा.';
                         }
                     },
 
@@ -130,11 +114,12 @@
 
                 checkout.on('payment.failed', function (event) {
                     result.textContent =
-                        'Payment failed:\n' +
+                        'Razorpay Checkout payment.failed:\n\n' +
                         JSON.stringify(event.error, null, 2);
                 });
 
                 checkout.open();
+
             } catch (error) {
                 result.textContent = 'Error: ' + error.message;
             } finally {

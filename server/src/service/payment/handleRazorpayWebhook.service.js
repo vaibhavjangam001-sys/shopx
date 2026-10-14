@@ -3,6 +3,7 @@ import { ApiError } from '../../utils/index.js';
 import {
   getPaymentByProviderOrderId,
   updatePaymentRepository,
+  markPaymentFailedRepository,
 } from '../../repositories/payment/index.js';
 import {
   getOrderByIdRepository,
@@ -12,6 +13,91 @@ import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 
 const handleRazorpayWebhookService = async (webhookEvent) => {
   const { event, payload } = webhookEvent;
+
+  if (event == 'payment.failed') {
+    const razorpayPayment = payload?.payment?.entity;
+
+    if (!razorpayPayment?.id || !razorpayPayment?.order_id) {
+      throw new ApiError(
+        HTTP_STATUS.BAD_REQUEST,
+        MESSAGES.PAYMENT.INVALID_PAYMENT_DETAILS
+      );
+    }
+
+    console.log('FAILED WEBHOOK DEBUG:', {
+      event,
+      razorpayPaymentId: razorpayPayment?.id,
+      razorpayOrderId: razorpayPayment?.order_id,
+      amount: razorpayPayment?.amount,
+      status: razorpayPayment?.status,
+    });
+
+    const payment = await getPaymentByProviderOrderId(razorpayPayment.order_id);
+
+    if (!payment) {
+      throw new ApiError(HTTP_STATUS.NOT_FOUND, MESSAGES.PAYMENT.NOT_FOUND);
+    }
+
+    if (payment.provider !== 'RAZORPAY') {
+      throw new ApiError(
+        HTTP_STATUS.BAD_REQUEST,
+        MESSAGES.PAYMENT.INVALID_PAYMENT_DETAILS
+      );
+    }
+
+    if (
+      !Number.isFinite(razorpayPayment.amount) ||
+      razorpayPayment.amount !== Math.round(payment.amount * 100) ||
+      razorpayPayment.currency !== payment.currency
+    ) {
+      throw new ApiError(
+        HTTP_STATUS.BAD_REQUEST,
+        MESSAGES.PAYMENT.INVALID_PAYMENT_DETAILS
+      );
+    }
+
+    if (payment.status === 'SUCCESS') {
+      return {
+        processed: true,
+        ignored: true,
+        reason: 'PAYMENT_ALREADY_SUCCESSFUL',
+      };
+    }
+
+    if (payment.status === 'FAILED') {
+      if (payment.providerPaymentId === razorpayPayment.id) {
+        return { processed: true, duplicate: true };
+      }
+
+      return {
+        processed: false,
+        reason: 'DIFFERENT_FAILED_PAYMENT_ATTEMPT',
+      };
+    }
+
+    const updatedPayment = await markPaymentFailedRepository({
+      paymentId: payment._id,
+      providerPaymentId: razorpayPayment.id,
+      failureReason:
+        razorpayPayment.error_description ||
+        razorpayPayment.error_reason ||
+        razorpayPayment.error_code ||
+        'Payment failed',
+    });
+
+    if (!updatedPayment) {
+      throw new ApiError(
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        MESSAGES.PAYMENT.UPDATE_FAILED
+      );
+    }
+
+    return {
+      processed: true,
+      failed: true,
+      duplicate: false,
+    };
+  }
 
   if (event !== 'payment.captured') {
     return { processed: false, reason: 'UNSUPPORTED_EVENT' };
@@ -57,6 +143,14 @@ const handleRazorpayWebhookService = async (webhookEvent) => {
 
     return { processed: true, duplicate: true };
   }
+
+  console.log('Payment before update:', {
+    id: payment._id.toString(),
+    providerOrderId: payment.providerOrderId,
+    status: payment.status,
+    providerPaymentId: payment.providerPaymentId,
+    incomingPaymentId: razorpayPayment.id,
+  });
 
   const session = await mongoose.startSession();
 
