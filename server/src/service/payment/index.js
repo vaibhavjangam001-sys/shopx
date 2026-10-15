@@ -2,3 +2,4 @@ export { default as createRazorpayOrderService } from './createRazorpayOrder.ser
 export { default as verifyRazorpayPaymentService } from './verifyRazorpayPayment.service.js';
 export { default as handleRazorpayWebhookService } from './handleRazorpayWebhook.service.js';
 export { default as getPaymentByIdService } from './getPaymentById.service.js';
+export { default as getPaymentsService } from './getPayments.service.js';

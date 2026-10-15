@@ -4,3 +4,4 @@ export { default as getPaymentByProviderOrderId } from './getPaymentByProviderOr
 export { default as updatePaymentRepository } from './updatePayment.repository.js';
 export { default as getPaymentByIdRepository } from './getPaymentById.repository.js';
 export { default as markPaymentFailedRepository } from './markPaymentFailed.repository.js';
+export { default as getPaymentsRepository } from './getPayments.repository.js';

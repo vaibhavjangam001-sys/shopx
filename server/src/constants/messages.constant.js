@@ -149,6 +149,7 @@ const MESSAGES = Object.freeze({
     INVALID_PAYMENT_DETAILS: 'Razorpay payment details do not match the order.',
     NOT_CAPTURED: 'Razorpay payment has not been captured.',
     UPDATE_FAILED: 'Failed to update payment status.',
+    FETCHED_ALL: 'Payments fetched successfully.',
     PAYMENT_RECORD_ALREADY_EXISTS:
       'A payment record already exists for this order.',
   },

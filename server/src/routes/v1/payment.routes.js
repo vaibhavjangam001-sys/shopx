@@ -13,20 +13,11 @@ import {
 import {
   createRazorpayOrderController,
   getPaymentByIdController,
+  getPaymentsController,
   verifyRazorpayPaymentController,
 } from '../../controllers/payment/index.js';
 
 const paymentRouter = Router();
-
-// get payment by ID
-paymentRouter.get(
-  '/:paymentId',
-  authenticationMiddleware,
-  authorizeMiddleware(ROLES.ADMIN),
-  getPaymentByIdValidator,
-  validationMiddleware,
-  getPaymentByIdController
-);
 
 //verify razorpay signature
 paymentRouter.post(
@@ -38,8 +29,6 @@ paymentRouter.post(
   verifyRazorpayPaymentController
 );
 
-export default paymentRouter;
-
 // create razorpay order
 paymentRouter.post(
   '/:orderId',
@@ -49,3 +38,23 @@ paymentRouter.post(
   validationMiddleware,
   createRazorpayOrderController
 );
+
+// get all payments
+paymentRouter.get(
+  '/',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN),
+  getPaymentsController
+);
+
+// get payment by ID
+paymentRouter.get(
+  '/:paymentId',
+  authenticationMiddleware,
+  authorizeMiddleware(ROLES.ADMIN),
+  getPaymentByIdValidator,
+  validationMiddleware,
+  getPaymentByIdController
+);
+
+export default paymentRouter;
