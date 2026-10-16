@@ -3,7 +3,7 @@ import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 import { getPaymentsService } from '../../service/payment/index.js';
 
 const getPaymentsController = AsyncHandler(async (req, res) => {
-  const payments = await getPaymentsService();
+  const payments = await getPaymentsService(req.query);
 
   res
     .status(HTTP_STATUS.OK)

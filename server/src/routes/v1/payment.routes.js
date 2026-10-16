@@ -8,6 +8,7 @@ import {
 import {
   createRazorpayOrderValidator,
   getPaymentByIdValidator,
+  paymentsQueryValidator,
   verifyRazorpayPaymentValidator,
 } from '../../validators/payment/index.js';
 import {
@@ -44,6 +45,8 @@ paymentRouter.get(
   '/',
   authenticationMiddleware,
   authorizeMiddleware(ROLES.ADMIN),
+  paymentsQueryValidator,
+  validationMiddleware,
   getPaymentsController
 );
 
