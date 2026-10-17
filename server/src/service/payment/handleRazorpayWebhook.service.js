@@ -6,6 +6,10 @@ import {
   markPaymentFailedRepository,
 } from '../../repositories/payment/index.js';
 import {
+  createPaymentAttemptRepository,
+  getPaymentAttemptByProviderPaymentIdRepository,
+} from '../../repositories/paymentAttempt/index.js';
+import {
   getOrderByIdRepository,
   updateOrderRepository,
 } from '../../repositories/order/index.js';
@@ -64,39 +68,81 @@ const handleRazorpayWebhookService = async (webhookEvent) => {
       };
     }
 
-    if (payment.status === 'FAILED') {
-      if (payment.providerPaymentId === razorpayPayment.id) {
-        return { processed: true, duplicate: true };
-      }
+    const failureReason =
+      razorpayPayment.error_description ||
+      razorpayPayment.error_reason ||
+      razorpayPayment.error_code ||
+      'Payment failed';
 
+    const existingAttempt =
+      await getPaymentAttemptByProviderPaymentIdRepository(razorpayPayment.id);
+
+    if (existingAttempt) {
       return {
-        processed: false,
-        reason: 'DIFFERENT_FAILED_PAYMENT_ATTEMPT',
+        processed: true,
+        duplicate: true,
       };
     }
 
-    const updatedPayment = await markPaymentFailedRepository({
-      paymentId: payment._id,
-      providerPaymentId: razorpayPayment.id,
-      failureReason:
-        razorpayPayment.error_description ||
-        razorpayPayment.error_reason ||
-        razorpayPayment.error_code ||
-        'Payment failed',
-    });
+    try {
+      if (payment.status === 'FAILED') {
+        if (payment.providerPaymentId === razorpayPayment.id) {
+          return { processed: true, duplicate: true };
+        }
 
-    if (!updatedPayment) {
-      throw new ApiError(
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        MESSAGES.PAYMENT.UPDATE_FAILED
-      );
+        return {
+          processed: false,
+          reason: 'DIFFERENT_FAILED_PAYMENT_ATTEMPT',
+        };
+      }
+
+      const session = await mongoose.startSession();
+
+      try {
+        await session.withTransaction(async () => {
+          await createPaymentAttemptRepository(
+            {
+              payment: payment._id,
+              providerPaymentId: razorpayPayment.id,
+              status: 'FAILED',
+              failureReason,
+            },
+            session
+          );
+
+          const updatedPayment = await markPaymentFailedRepository({
+            paymentId: payment._id,
+            providerPaymentId: razorpayPayment.id,
+            failureReason,
+            session,
+          });
+
+          if (!updatedPayment) {
+            throw new ApiError(
+              HTTP_STATUS.CONFLICT,
+              MESSAGES.PAYMENT.UPDATE_FAILED
+            );
+          }
+        });
+      } finally {
+        await session.endSession();
+      }
+
+      return {
+        processed: true,
+        failed: true,
+        duplicate: false,
+      };
+    } catch (error) {
+      if (error.code === 11000) {
+        return {
+          processed: true,
+          duplicate: true,
+        };
+      }
+
+      throw error;
     }
-
-    return {
-      processed: true,
-      failed: true,
-      duplicate: false,
-    };
   }
 
   if (event !== 'payment.captured') {

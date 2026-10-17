@@ -3,7 +3,7 @@ import { Payment } from '../../models/index.js';
 const updatePaymentRepository = async ({
   paymentId,
   providerPaymentId,
-  session = {},
+  session = null,
 }) => {
   return Payment.findOneAndUpdate(
     {
