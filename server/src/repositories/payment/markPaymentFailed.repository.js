@@ -2,19 +2,17 @@ import { Payment } from '../../models/index.js';
 
 const markPaymentFailedRepository = async ({
   paymentId,
-  providerPaymentId,
   failureReason,
-  session,
+  session = null,
 }) => {
-  return await Payment.findOneAndUpdate(
+  return Payment.findOneAndUpdate(
     {
       _id: paymentId,
-      status: { $in: ['CREATED', 'PENDING'] },
+      status: { $in: ['CREATED', 'PENDING', 'FAILED'] },
       providerPaymentId: null,
     },
     {
       $set: {
-        providerPaymentId,
         status: 'FAILED',
         failureReason: failureReason || 'Payment failed',
       },

@@ -8,7 +8,7 @@ const updatePaymentRepository = async ({
   return Payment.findOneAndUpdate(
     {
       _id: paymentId,
-      status: { $in: ['CREATED', 'PENDING'] },
+      status: { $in: ['CREATED', 'PENDING', 'FAILED'] },
       providerPaymentId: null,
     },
     {

@@ -3,18 +3,32 @@ import { PaymentAttempt } from '../../models/index.js';
 const updatePaymentAttemptRepository = async ({
   providerPaymentId,
   status,
-  failureReason = null,
-  paidAt = null,
+  failureReason,
+  paidAt,
   session = null,
 }) => {
+  const updateFields = {};
+
+  if (status !== undefined) {
+    updateFields.status = status;
+  }
+
+  if (failureReason !== undefined) {
+    updateFields.failureReason = failureReason;
+  }
+
+  if (paidAt !== undefined) {
+    updateFields.paidAt = paidAt;
+  }
+
+  if (Object.keys(updateFields).length === 0) {
+    return null;
+  }
+
   return PaymentAttempt.findOneAndUpdate(
     { providerPaymentId },
     {
-      $set: {
-        status,
-        failureReason,
-        paidAt,
-      },
+      $set: updateFields,
     },
     {
       returnDocument: 'after',

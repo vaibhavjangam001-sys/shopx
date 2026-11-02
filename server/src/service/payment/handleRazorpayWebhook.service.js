@@ -8,6 +8,7 @@ import {
 import {
   createPaymentAttemptRepository,
   getPaymentAttemptByProviderPaymentIdRepository,
+  updatePaymentAttemptRepository,
 } from '../../repositories/paymentAttempt/index.js';
 import {
   getOrderByIdRepository,
@@ -18,23 +19,19 @@ import { HTTP_STATUS, MESSAGES } from '../../constants/index.js';
 const handleRazorpayWebhookService = async (webhookEvent) => {
   const { event, payload } = webhookEvent;
 
-  if (event == 'payment.failed') {
+  if (event === 'payment.failed') {
     const razorpayPayment = payload?.payment?.entity;
 
-    if (!razorpayPayment?.id || !razorpayPayment?.order_id) {
+    if (
+      !razorpayPayment?.id ||
+      !razorpayPayment?.order_id ||
+      razorpayPayment.status !== 'failed'
+    ) {
       throw new ApiError(
         HTTP_STATUS.BAD_REQUEST,
         MESSAGES.PAYMENT.INVALID_PAYMENT_DETAILS
       );
     }
-
-    console.log('FAILED WEBHOOK DEBUG:', {
-      event,
-      razorpayPaymentId: razorpayPayment?.id,
-      razorpayOrderId: razorpayPayment?.order_id,
-      amount: razorpayPayment?.amount,
-      status: razorpayPayment?.status,
-    });
 
     const payment = await getPaymentByProviderOrderId(razorpayPayment.order_id);
 
@@ -60,11 +57,23 @@ const handleRazorpayWebhookService = async (webhookEvent) => {
       );
     }
 
+    // Successful payment must never become FAILED.
     if (payment.status === 'SUCCESS') {
       return {
         processed: true,
         ignored: true,
         reason: 'PAYMENT_ALREADY_SUCCESSFUL',
+      };
+    }
+
+    const existingAttempt =
+      await getPaymentAttemptByProviderPaymentIdRepository(razorpayPayment.id);
+
+    // Duplicate webhook protection.
+    if (existingAttempt) {
+      return {
+        processed: true,
+        duplicate: true,
       };
     }
 
@@ -74,65 +83,35 @@ const handleRazorpayWebhookService = async (webhookEvent) => {
       razorpayPayment.error_code ||
       'Payment failed';
 
-    const existingAttempt =
-      await getPaymentAttemptByProviderPaymentIdRepository(razorpayPayment.id);
-
-    if (existingAttempt) {
-      return {
-        processed: true,
-        duplicate: true,
-      };
-    }
+    const session = await mongoose.startSession();
 
     try {
-      if (payment.status === 'FAILED') {
-        if (payment.providerPaymentId === razorpayPayment.id) {
-          return { processed: true, duplicate: true };
-        }
-
-        return {
-          processed: false,
-          reason: 'DIFFERENT_FAILED_PAYMENT_ATTEMPT',
-        };
-      }
-
-      const session = await mongoose.startSession();
-
-      try {
-        await session.withTransaction(async () => {
-          await createPaymentAttemptRepository(
-            {
-              payment: payment._id,
-              providerPaymentId: razorpayPayment.id,
-              status: 'FAILED',
-              failureReason,
-            },
-            session
-          );
-
-          const updatedPayment = await markPaymentFailedRepository({
-            paymentId: payment._id,
+      await session.withTransaction(async () => {
+        // Save every unique failed attempt.
+        await createPaymentAttemptRepository(
+          {
+            payment: payment._id,
             providerPaymentId: razorpayPayment.id,
+            status: 'FAILED',
             failureReason,
-            session,
-          });
+          },
+          session
+        );
 
-          if (!updatedPayment) {
-            throw new ApiError(
-              HTTP_STATUS.CONFLICT,
-              MESSAGES.PAYMENT.UPDATE_FAILED
-            );
-          }
+        // Update overall Payment status.
+        const updatedPayment = await markPaymentFailedRepository({
+          paymentId: payment._id,
+          failureReason,
+          session,
         });
-      } finally {
-        await session.endSession();
-      }
 
-      return {
-        processed: true,
-        failed: true,
-        duplicate: false,
-      };
+        if (!updatedPayment) {
+          throw new ApiError(
+            HTTP_STATUS.CONFLICT,
+            MESSAGES.PAYMENT.UPDATE_FAILED
+          );
+        }
+      });
     } catch (error) {
       if (error.code === 11000) {
         return {
@@ -142,7 +121,15 @@ const handleRazorpayWebhookService = async (webhookEvent) => {
       }
 
       throw error;
+    } finally {
+      await session.endSession();
     }
+
+    return {
+      processed: true,
+      failed: true,
+      duplicate: false,
+    };
   }
 
   if (event !== 'payment.captured') {
@@ -170,6 +157,7 @@ const handleRazorpayWebhookService = async (webhookEvent) => {
 
   if (
     payment.provider !== 'RAZORPAY' ||
+    !Number.isFinite(razorpayPayment.amount) ||
     razorpayPayment.amount !== Math.round(payment.amount * 100) ||
     razorpayPayment.currency !== payment.currency
   ) {
@@ -202,6 +190,54 @@ const handleRazorpayWebhookService = async (webhookEvent) => {
 
   try {
     await session.withTransaction(async () => {
+      const paidAt = new Date();
+
+      // 1. Check whether this payment attempt already exists.
+      const existingAttempt =
+        await getPaymentAttemptByProviderPaymentIdRepository(
+          razorpayPayment.id,
+          session
+        );
+
+      if (existingAttempt) {
+        // Ensure attempt belongs to the same Payment.
+        if (existingAttempt.payment.toString() !== payment._id.toString()) {
+          throw new ApiError(
+            HTTP_STATUS.CONFLICT,
+            MESSAGES.PAYMENT.ALREADY_COMPLETED
+          );
+        }
+
+        // 2. Update existing attempt.
+        const updatedAttempt = await updatePaymentAttemptRepository({
+          providerPaymentId: razorpayPayment.id,
+          status: 'SUCCESS',
+          failureReason: null,
+          paidAt,
+          session,
+        });
+
+        if (!updatedAttempt) {
+          throw new ApiError(
+            HTTP_STATUS.CONFLICT,
+            MESSAGES.PAYMENT.UPDATE_FAILED
+          );
+        }
+      } else {
+        // 3. Create new successful attempt.
+        await createPaymentAttemptRepository(
+          {
+            payment: payment._id,
+            providerPaymentId: razorpayPayment.id,
+            status: 'SUCCESS',
+            failureReason: null,
+            paidAt,
+          },
+          session
+        );
+      }
+
+      // 4. Update main Payment document.
       const updatedPayment = await updatePaymentRepository({
         paymentId: payment._id,
         providerPaymentId: razorpayPayment.id,
@@ -215,6 +251,7 @@ const handleRazorpayWebhookService = async (webhookEvent) => {
         );
       }
 
+      // 5. Find Order.
       const order = await getOrderByIdRepository(
         payment.user,
         payment.order,
@@ -232,6 +269,7 @@ const handleRazorpayWebhookService = async (webhookEvent) => {
         );
       }
 
+      // 6. Confirm Order.
       const updatedOrder = await updateOrderRepository(
         payment.order,
         { status: 'CONFIRMED' },
