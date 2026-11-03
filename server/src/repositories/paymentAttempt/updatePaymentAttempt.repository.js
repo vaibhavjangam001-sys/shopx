@@ -7,6 +7,10 @@ const updatePaymentAttemptRepository = async ({
   paidAt,
   session = null,
 }) => {
+  if (!providerPaymentId) {
+    return null;
+  }
+
   const updateFields = {};
 
   if (status !== undefined) {
