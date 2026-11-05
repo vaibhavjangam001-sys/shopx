@@ -5,3 +5,4 @@ export { default as updatePaymentRepository } from './updatePayment.repository.j
 export { default as getPaymentByIdRepository } from './getPaymentById.repository.js';
 export { default as markPaymentFailedRepository } from './markPaymentFailed.repository.js';
 export { default as getPaymentsRepository } from './getPayments.repository.js';
+export { default as updatePaymentRefundRepository } from './updatePaymentRefund.repository.js';

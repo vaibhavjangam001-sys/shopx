@@ -70,6 +70,13 @@ const paymentSchema = new mongoose.Schema(
       default: null,
     },
 
+    refundedAmount: {
+      type: Number,
+      required: true,
+      default: 0,
+      min: [0, 'Refunded amount cannot be negative.'],
+    },
+
     refundedAt: {
       type: Date,
       default: null,
