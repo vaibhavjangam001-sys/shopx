@@ -154,6 +154,17 @@ const MESSAGES = Object.freeze({
       'A payment record already exists for this order.',
   },
 
+  REFUND: {
+    NOT_FOUND: 'Refund not found.',
+    INVALID_AMOUNT: 'Invalid refund amount.',
+    PAYMENT_NOT_SUCCESSFUL: 'Only successful payments can be refunded.',
+    PAYMENT_NOT_OWNED: 'You are not authorized to refund this payment.',
+    AMOUNT_EXCEEDS_REMAINING:
+      'Refund amount exceeds the remaining refundable amount.',
+    CREATED: 'Refund request created successfully.',
+    FAILED_REFUND: 'Failed to refund.',
+  },
+
   RAZORPAY: {
     INVALID_WEBHOOK: 'Invalid webhook signature',
   },

@@ -11,6 +11,7 @@ import addressRouter from './address.routes.js';
 import orderRouter from './order.routes.js';
 import couponRouter from './coupon.routes.js';
 import paymentRouter from './payment.routes.js';
+import refundRouter from './refund.routes.js';
 
 const v1Router = Router();
 
@@ -25,5 +26,6 @@ v1Router.use('/address', addressRouter);
 v1Router.use('/orders', orderRouter);
 v1Router.use('/coupons', couponRouter);
 v1Router.use('/payments', paymentRouter);
+v1Router.use('/refunds', refundRouter);
 
 export default v1Router;
