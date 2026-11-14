@@ -88,10 +88,6 @@ const createRefundService = async (
 
   const updatedRefund = await updateRefundRepository(refund._id, {
     providerRefundId: razorpayRefund.id,
-    status: razorpayRefund.status.toUpperCase(),
-    ...(razorpayRefund.status === 'processed' && {
-      processedAt: new Date(),
-    }),
   });
 
   if (!updatedRefund) {
